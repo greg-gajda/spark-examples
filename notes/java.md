@@ -247,12 +247,14 @@ Predicted: 1,0, Label: 1,0
 Predicted: 0,0, Label: 0,0
 
 Metrics can be evaluated:
-  JavaRDD<Tuple2<Object, Object>> predictionsAndLabels = test.map(p -> 
+```
+JavaRDD<Tuple2<Object, Object>> predictionsAndLabels = test.map(p -> 
 	new Tuple2<Object, Object>(dtree.predict(p.features()), p.label())
-  );
+);
   
-  Stats stats = Stats.apply(confusionMatrix(predictionsAndLabels.rdd()));
-  System.out.println(stats.toString());
+Stats stats = Stats.apply(confusionMatrix(predictionsAndLabels.rdd()));
+System.out.println(stats.toString());
 
-  BinaryClassificationMetrics metrics = new BinaryClassificationMetrics(predictionsAndLabels.rdd());
-  printMetrics(metrics);
+BinaryClassificationMetrics metrics = new BinaryClassificationMetrics(predictionsAndLabels.rdd());
+printMetrics(metrics);
+```
