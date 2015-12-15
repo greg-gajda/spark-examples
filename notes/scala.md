@@ -232,7 +232,7 @@ val (tp, tn, fp, fn) = predictionsAndLabels.aggregate((0, 0, 0, 0))(
     combOp = (t1, t2) => (t1._1 + t2._1, t1._2 + t2._2, t1._3 + t2._3, t1._4 + t2._4))
 ```
 Based on above, some other measures can be entered, e.g. in form of utility class:
-```
+```scala
 class Stats(val tp: Int, val tn: Int, val fp: Int, val fn: Int) {
   val TPR = tp / (tp + fn).toDouble
   val recall = TPR
