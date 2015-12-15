@@ -6,5 +6,5 @@
     * [Java 8 version of classification using Decision Tree](notes/gitbook.md)
     * [Decision Trees Tuning](notes/tuning.md)
 * [Ensembles of Classifiers]()
-    * [We love feedback]()
-    * [Better tools for authors]()
+    * [Random Forest]()
+    
