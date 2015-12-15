@@ -1,18 +1,18 @@
 In Spark program first thing is to create SparkConf object that contains information about application, which is required by SparkContext object as constructor parameter. It is important that only one SparkContext may be active per JVM, and should be stopped before creating new context or before exiting current application. Application name is set to:
 
-```val applicationName = 
+val applicationName = 
 "Decision Tree Algorithm as classifier of Bike Buyers"
-```
+
 
 Function which returns configuration for running application in local mode with as many worker threads as logical cores available and with defined access to Cassandra is defined:
 
-  def local: SparkConf = {
+```  def local: SparkConf = {
     val conf = new SparkConf().setAppName(applicationName)
     conf.setMaster("local[*]")
     conf.set("spark.cassandra.connection.host", cassandraHost)
     conf
   }
-
+```
 And to run application in Standalone Cluster mode:
 
   def cluster: SparkConf = {
