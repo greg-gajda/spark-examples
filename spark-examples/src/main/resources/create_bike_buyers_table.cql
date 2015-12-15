@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS spark.bike_buyers(
+	customer_key INT PRIMARY KEY,
+	age INT,
+	bike_buyer INT,
+	commute_distance TEXT,
+	english_education TEXT,
+	gender TEXT,
+	house_owner_flag INT,
+	marital_status TEXT,
+	number_cars_owned INT,
+	number_children_at_home INT,
+	occupation TEXT,
+	region TEXT,
+	total_children INT,
+	yearly_income FLOAT);
