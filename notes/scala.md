@@ -1,11 +1,12 @@
 # Example in Scala
 
-In Spark program first thing is to create SparkConf object that contains information about application, which is required by SparkContext object as constructor parameter. It is important that only one SparkContext may be active per JVM, and should be stopped before creating new context or before exiting current application. Application name is set to:
+In Spark program first thing is to create SparkConf object that contains information about application, which is required by SparkContext object as constructor parameter.
+
+It is important that only one SparkContext may be active per JVM, and should be stopped before creating new context or before exiting current application. Application name is set to:
 
 ```scala
 val applicationName = "Decision Tree Algorithm as classifier of Bike Buyers"
 ```
-
 
 Function which returns configuration for running application in local mode with as many worker threads as logical cores available and with defined access to Cassandra is defined:
 
@@ -42,6 +43,7 @@ def localFile: (SparkContext => RDD[String]) = sc => {
 }
 ```
 Using HDFS requires Hadoop being configured and available. The only difference in code is that instead of providing file path, HDFS URL is to be supplied. 192.168.1.15:9000 reflects my local network Hadoop Cluster configuration, so it ought to be replaced with some alternative.
+
 ```scala
 def hdfsFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers")
@@ -92,8 +94,11 @@ object LoadBikeBuyers {
 }
 ```
 Both scripts (create_spark_keyspace.cql, create_bike_buyers_table.cql) are on github. 
+
 After executing of LoadBikeBuyers.scala, keyspace “spark” and table “bike_buyers” are created, and content of bike-buyers file is loaded into it. 
-After loading data into RDD of Strings, conversion into LabeledPoint data structure can be prepared. For binary classification, labels should be negative or positive, represented by 0 or 1. Categorical features ought to be converted to numeric values 0, 1, 2 and so on. In this case, BikeBuyer flag would serve as Label, and all the rest would compose features vector. Customer Key doesn’t play any real decision role but helps prevent model overfitting. 
+
+After loading data into RDD of Strings, conversion into LabeledPoint data structure can be prepared. For binary classification, labels should be negative or positive, represented by 0 or 1. Categorical features ought to be converted to numeric values 0, 1, 2 and so on. In this case, BikeBuyer flag would serve as Label, and all the rest would compose features vector. Customer Key doesn’t play any real decision role but helps prevent model overfitting.
+
 Using case class that reflects raw data can make conversion into LabeledPoints a bit easier:
 ```scala
 case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String, englishEducation: String, gender: String, houseOwnerFlag: Int, maritalStatus: String, numberCarsOwned: Int, numberChildrenAtHome: Int, englishOccupation: String, region: String, totalChildren: Int, yearlyIncome: Float)
@@ -200,12 +205,13 @@ Trained model can be used for prediction of whether potential customer is going 
 ```
 Typical response of prediction for 5 top records from test dataset can look like this: 
 
+<div class="console">
 Predicted: 1.0, Label: 1.0
-Predicted: 1.0, Label: 1.0
-Predicted: 0.0, Label: 0.0
-Predicted: 0.0, Label: 1.0
-Predicted: 1.0, Label: 1.0
-
+<br>Predicted: 1.0, Label: 1.0
+<br>Predicted: 0.0, Label: 0.0
+<br>Predicted: 0.0, Label: 1.0
+<br>Predicted: 1.0, Label: 1.0
+</div>
 To answer questions what is the real performance of this model, what is its ability to provide correct responses, some metrics has to be evaluated.
 To further check performance of created model, test data can be used to collect predictions and expected values:
 ```scala
