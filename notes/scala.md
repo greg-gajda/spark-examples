@@ -303,7 +303,17 @@ Some of described metrics and some additional are available in Spark’s binary 
 ```scala
     val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
 ```
-The ROC curve (receiver operating characteristic) shows the sensitivity of the classifier by plotting the rate of true positives to the rate of false positives. In other words, the perfect classifier that makes no mistakes would hit a true positive rate of 1, without incurring any false positives. Calculating area under ROC curve allows to express this relation as single number, which with caution can be used for model comparison. High value of AUC can be treated as representation of good classification model, which reflects a lot of space under curve, when it goes to point of perfect classification. Low value of AUC is the opposite. In Spark ROC curve is available in form of RDD containing (false positive rate, true positive rate) with (0.0, 0.0) prepended and (1.0, 1.0) appended to it, and area under ROC curve is available as single value.
+The ROC curve (receiver operating characteristic) shows the sensitivity of the classifier by plotting the rate of true positives to the rate of false positives. 
+
+In other words, the perfect classifier that makes no mistakes would hit a true positive rate of 1, without incurring any false positives. 
+
+Calculating area under ROC curve allows to express this relation as single number, which with caution can be used for model comparison. 
+
+High value of AUC can be treated as representation of good classification model, which reflects a lot of space under curve, when it goes to point of perfect classification. 
+
+Low value of AUC is the opposite. 
+
+In Spark ROC curve is available in form of RDD containing (false positive rate, true positive rate) with (0.0, 0.0) prepended and (1.0, 1.0) appended to it, and area under ROC curve is available as single value.
 ```scala
 val roc = metrics.roc
 val auROC = metrics.areaUnderROC
@@ -314,6 +324,7 @@ Precision-Recall curve (Spark returns it in reverse order) is available along wi
     val auPR = metrics.areaUnderPR
 ```
 Values of precision, recall and f-measure can be also read from BinaryClassificationMetrics object. In this case, Spark calculates them for both classes separately:
+
 ```scala
 val precision = metrics.precisionByThreshold
 precision.foreach { case (t, p) => println(s"Threshold: $t, Precision: $p") }
@@ -325,15 +336,15 @@ val f1Score = metrics.fMeasureByThreshold
 f1Score.foreach { case (t, f) => println(s"Threshold: $t, F-score: $f, Beta = 1") }
 ```
 Example output can look like that:
-
-Threshold: 1.0, Precision: 0.8690095846645367
-Threshold: 0.0, Precision: 0.5
-Threshold: 1.0, Recall: 0.8774193548387097
-Threshold: 0.0, Recall: 1.0
-Threshold: 1.0, F-score: 0.8731942215088282, Beta = 1
-Threshold: 0.0, F-score: 0.6666666666666666, Beta = 1
-Threshold: 1.0, F-score: 0.8731942215088282, Beta = 0.5
-Threshold: 0.0, F-score: 0.6666666666666666, Beta = 0.5
-Area under PR (precision-recall curve) = 0.9038596310419458
-Area under ROC (Receiver Operating Characteristic) = 0.8725806451612903
-
+<div class = "console">
+Threshold: 1.0, Precision: 0.8690095846645367 <br>
+Threshold: 0.0, Precision: 0.5 <br>
+Threshold: 1.0, Recall: 0.8774193548387097 <br>
+Threshold: 0.0, Recall: 1.0 <br>
+Threshold: 1.0, F-score: 0.8731942215088282, Beta = 1 <br>
+Threshold: 0.0, F-score: 0.6666666666666666, Beta = 1 <br>
+Threshold: 1.0, F-score: 0.8731942215088282, Beta = 0.5 <br>
+Threshold: 0.0, F-score: 0.6666666666666666, Beta = 0.5 <br>
+Area under PR (precision-recall curve) = 0.9038596310419458 <br>
+Area under ROC (Receiver Operating Characteristic) = 0.8725806451612903 <br>
+</div>
