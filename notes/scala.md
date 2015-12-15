@@ -173,23 +173,29 @@ Now, acquiring data in format required by Spark is quite easy:
 val data = bbFile.map { row => BikeBuyerModel(row.split("\\t")).toLabeledPoint }
 ```
 After that, data can be split into train and test parts, to conform cross-validation method, when model is trained with part of dataset and its performance is evaluated with another part:
-    val Array(train, test) = data.randomSplit(Array(.9, .1))
+```
+val Array(train, test) = data.randomSplit(Array(.9, .1))
+```
 It seems to be a good moment to cache data for further reuse:
-    train.cache()
-    test.cache()
-
+```
+train.cache()
+test.cache()
+```
 Now Spark’s classification decision tree algorithm can be trained:
-    val numClasses = 2
-    val impurity = "entropy" 
-    val maxDepth = 20
-    val maxBins = 24
+```
+val numClasses = 2
+val impurity = "entropy" 
+val maxDepth = 20
+val maxBins = 24
 
-    val dtree = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo(), impurity, maxDepth, maxBins)
-
+val dtree = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo(), impurity, maxDepth, maxBins)
+```
 Trained model can be used for prediction of whether potential customer is going to buy a bicycle or not:
+```
     test.take(5).foreach {
       x => println(s"Predicted: ${dtree.predict(x.features)}, actual value: ${x.label}")
     }
+```
 Typical response of prediction for 5 top records from test dataset can look like this: 
 Predicted: 1.0, Label: 1.0
 Predicted: 1.0, Label: 1.0
