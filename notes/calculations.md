@@ -9,12 +9,6 @@ If trained classifier predicts 855 samples as true with 751 actually true, and p
 |Labelled as positive|	124.0  	(FN)|		751.0  (TP)|
 
 
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
 Overall accuracy is (751 + 795)/(875 + 899) = 1546/1774 = 0.871, and misclassification for class 0 and 1 is 104/899 = 0,115 and 124/875 = 0,145 accordingly. 
 For positive class Precision equals to 751/855 = 0,8783 and Recall equals to 751/875 = 0,8582. 
 MCC is equal to 0,7430.
@@ -26,9 +20,10 @@ If the classes were not balanced, then the accuracy would give a very distorted 
 Now suppose data set contains 1575 positive and 199 negative samples. 
 If classifier predicted 1451 as true with 1555 actual true, and 95 as false with 119 actual false, then Confusion matrix will be:
 
-			Predicted as negative	Predicted as positive
-Labeled as negative 	95.0  (TN)			104.0  (FP)
-Labeled as positive	24.0  (FN)			1451.0  (TP)
+|			         |Predicted as negative	|Predicted as positive|
+| ------------------ |:------------:| ----------------:|
+|Labeled as negative |	95.0  (TN)  |		104.0  (FP)|
+|Labeled as positive |	24.0  (FN)  |	    1451.0 (TP)|
 
 Overall accuracy is (1451 + 95)/(1575 + 199) = 1546/1774 = 0.8714, and misclassification for class 0 and 1 is 104/199 = 0,5226 and 24/1575 = 0,0152 accordingly. 
 The accuracy calculated for each class is 95/199 = 0,4773 and 1451/1575 = 0,9212 and average of them is 0,6956. For positive class Precision equals to 1451/1555 = 0,9331 and Recall equals to 1451/1475 = 0,9837, but for negative class Precision equals to 95/119 = 0,7983 and Recall equals to 95/199 = 0,4773. 
