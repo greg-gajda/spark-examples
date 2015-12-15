@@ -29,7 +29,7 @@ def cluster: SparkConf = {
 ```
 Single node Cassandra is available on default port 9042 at:
 
-  ```
+  ```scala
   val cassandraHost = "127.0.0.1"
   ```
 
