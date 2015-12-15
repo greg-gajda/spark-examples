@@ -25,33 +25,33 @@ And to run application in Standalone Cluster mode:
 ```
 Single node Cassandra is available on default port 9042 at:
 
-  val cassandraHost = "127.0.0.1"
+  ```val cassandraHost = "127.0.0.1"```
 
 and to use it from Spark, location of Cassandra must be added to spark configuration as shown above.
 
 Functions to load data from local storage, HDFS and Cassandra go as follow. To run on cluster, local file should be located on network storage available for every Spark’s workers or copied to exactly the same location on every node.
-
+```
   def localFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("data/bike-buyers")
   }
-
+```
 Using HDFS requires Hadoop being configured and available. The only difference in code is that instead of providing file path, HDFS URL is to be supplied. 192.168.1.15:9000 reflects my local network Hadoop Cluster configuration, so it ought to be replaced with some alternative.
-
+```
   def hdfsFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers")
   }
-
+```
 CassandraRows are mapped into Strings, only to keep the same form, as after reading from text file. More reasonably solution could transform rows directly into something more useful.
-
+```
   def cassandraFile: (SparkContext => RDD[String]) = sc => {
     import com.datastax.spark.connector._
     sc.cassandraTable("spark", "bike_buyers").map { row =>
       row.columnValues.mkString("\t")
     }
   }
-
+```
 To load data into Cassandra simple ETL program written in Scala can look like this:
-
+```
 object LoadBikeBuyers {
 
   def main(args: Array[String]): Unit = {
@@ -86,7 +86,9 @@ object LoadBikeBuyers {
     })
   }
 }
-Both scripts (create_spark_keyspace.cql, create_bike_buyers_table.cql) are on github. After execution of LoadBikeBuyers.scala, keyspace “spark” and table “bike_buyers” are created, and content of bike-buyers file is loaded into it. 
+```
+Both scripts (create_spark_keyspace.cql, create_bike_buyers_table.cql) are on github. 
+After execution of LoadBikeBuyers.scala, keyspace “spark” and table “bike_buyers” are created, and content of bike-buyers file is loaded into it. 
 After loading data into RDD of Strings, conversion into LabeledPoint data structure can be prepared. For binary classification, labels should be negative or positive, represented by 0 or 1. Categorical features ought to be converted to numeric values 0, 1, 2 and so on. In this case, BikeBuyer flag would serve as Label, and all the rest would compose features vector. Customer Key doesn’t play any real decision role but helps prevent model overfitting. Using case class that reflects raw data can make conversion into LabeledPoints a bit easier. 
 In Scala following case class can be used:
 case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String, englishEducation: String, gender: String, houseOwnerFlag: Int, maritalStatus: String, numberCarsOwned: Int, numberChildrenAtHome: Int, englishOccupation: String, region: String, totalChildren: Int, yearlyIncome: Float)
