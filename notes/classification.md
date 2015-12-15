@@ -4,6 +4,7 @@
 Here are notes from examining some classification algorithms available in Spark’s MLLib with data excerpted from AdventureWorksDW2012 sample database. 
 
 Data is copied to bike-buyers text file, which you can find on github (https://github.com/grzegorzgajda/spark-examples). 
+
 This file contains following information about customers of fictitious Adventure Works Cycles multinational manufacturing company:
 
 * CustomerKey – internal key assigned to every customer 
