@@ -216,16 +216,17 @@ Predicted: 1.0, Label: 1.0<br>
 
 To answer questions what is the real performance of this model, what is its ability to provide correct responses, some metrics has to be evaluated.
 To further check performance of created model, test data can be used to collect predictions and expected values:
+
 ```scala
     val predictionsAndLabels = test.map { 
       point => (dtree.predict(point.features), point.label) 
     } 
 ```
 In general, predictions of each data point from bike buyers dataset can be assigned to one of four categories: 
-•	True Positive, when buyer is predicted as buyer,
-•	True Negative, when not buyer is predicted as not buyer,
-•	False Positive, when not buyer is predicted as buyer,
-•	False Negative, when buyer predicted as not buyer.
+*True Positive, when buyer is predicted as buyer,
+*True Negative, when not buyer is predicted as not buyer,
+*False Positive, when not buyer is predicted as buyer,
+*False Negative, when buyer predicted as not buyer.
 
 Calculations can look like that:
 ```scala
