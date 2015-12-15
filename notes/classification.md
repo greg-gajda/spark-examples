@@ -1,10 +1,8 @@
 
 # Classification using Decision Tree
 
-Exploring internet on hot topic Machine Learning I found tutorials created by Microsoft about their SQL Server Data Mining Extensions. 
-Microsoft provides AdventureWorksDW2012 sample database under Microsoft Public License (http://msftdbprodsamples.codeplex.com/license) and uses it in data mining tutorials. Some time ago it inspired me to build and test more general and presumably more scalable solution using Apache Spark. 
-Of course, results of computations should be comparable to some level regardless of solution being used.
-I decided to examine some classification algorithms available in Spark’s MLLib with data excerpted from AdventureWorksDW2012 sample database. 
+Here are notes from examining some classification algorithms available in Spark’s MLLib with data excerpted from AdventureWorksDW2012 sample database. 
+
 Data is copied to bike-buyers text file, which you can find on github (https://github.com/grzegorzgajda/spark-examples). 
 This file contains following information about customers of fictitious Adventure Works Cycles multinational manufacturing company:
 
