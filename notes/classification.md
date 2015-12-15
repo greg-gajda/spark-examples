@@ -39,4 +39,4 @@ Here, following options are taken into account:
 * HDFS,
 * Cassandra.
 
-To build  project Gradle is used.
+To build project Gradle is used.
