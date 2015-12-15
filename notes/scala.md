@@ -36,7 +36,7 @@ Single node Cassandra is available on default port 9042 at:
 and to use it from Spark, location of Cassandra must be added to spark configuration as shown above.
 
 Functions to load data from local storage, HDFS and Cassandra go as follow. To run on cluster, local file should be located on network storage available for every Spark’s workers or copied to exactly the same location on every node.
-```
+```scala
 def localFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("data/bike-buyers")
 }
