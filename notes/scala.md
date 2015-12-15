@@ -206,28 +206,32 @@ Predicted: 1.0, Label: 1.0
 
 To answer questions what is the real performance of this model, what is its ability to provide correct responses, some metrics has to be evaluated.
 To further check performance of created model, test data can be used to collect predictions and expected values:
+```
     val predictionsAndLabels = test.map { 
       point => (dtree.predict(point.features), point.label) 
     } 
+```
 In general, predictions of each data point from bike buyers dataset can be assigned to one of four categories: 
 •	True Positive, when buyer is predicted as buyer,
 •	True Negative, when not buyer is predicted as not buyer,
 •	False Positive, when not buyer is predicted as buyer,
 •	False Negative, when buyer predicted as not buyer.
+
 Calculations can look like that:
-    val (tp, tn, fp, fn) = predictionsAndLabels.aggregate((0, 0, 0, 0))(
-      seqOp = (t, pal) => {
+```
+val (tp, tn, fp, fn) = predictionsAndLabels.aggregate((0, 0, 0, 0))(
+    seqOp = (t, pal) => {
         val (tp, tn, fp, fn) = t
         (if (pal._1 == pal._2 && pal._2 == 1.0) tp + 1 else tp,
          if (pal._1 == pal._2 && pal._2 == 0.0) tn + 1 else tn,
          if (pal._1 == 1.0 && pal._2 == 0.0) fp + 1 else fp,
          if (pal._1 == 0.0 && pal._2 == 1.0) fn + 1 else fn)
-      },
-      combOp = (t1, t2) => (t1._1 + t2._1, t1._2 + t2._2, t1._3 + t2._3, t1._4 + t2._4))
-
+    },
+    combOp = (t1, t2) => (t1._1 + t2._1, t1._2 + t2._2, t1._3 + t2._3, t1._4 + t2._4))
+```
 Based on above, some other measures can be entered, e.g. in form of utility class:
+```
 class Stats(val tp: Int, val tn: Int, val fp: Int, val fn: Int) {
-
   val TPR = tp / (tp + fn).toDouble
   val recall = TPR
   val sensitivity = TPR
@@ -243,8 +247,8 @@ class Stats(val tp: Int, val tn: Int, val fp: Int, val fn: Int) {
   val accuracy = ACC
   val F1 = 2 * PPV * TPR / (PPV + TPR).toDouble
   val MCC = (tp * tn - fp * fn).toDouble / math.sqrt((tp + fp).toDouble * (tp + fn).toDouble * (fp + tn).toDouble * (tn + fn).toDouble)
-
 }
+```
 True positive rate TPR, called also recall or sensitivity is defined as the number of samples correctly predicted as belonging to the positive class (true positives) divided by the total number of elements that actually belong to the positive class (i.e. the sum of true positives and false negatives, which are items which were not predicted as belonging to the positive class but should have been)
 True negative rate TNR, called also specificity is measure of samples correctly predicted as belonging to negative class divided by the total number of elements actually belonging to the negative class.
 Positive predictive value, called also precision is the proportion of samples correctly predicted as belonging to the positive class (true positives) divided by the total number of elements predicted as belonging to the positive class (i.e. the sum of true positives and false positives, which are items incorrectly predicted as belonging to the class).
