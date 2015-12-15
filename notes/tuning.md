@@ -1,5 +1,5 @@
 Spark decision tree classification algorithm takes some parameters that can significantly influence quality of created model. There is no simple theory that tells what values should be used. Answer can be found by iterations, and selecting model with best characteristics. 
-
+```
     val numClasses = 2
     val tuning =
       for (
@@ -26,7 +26,7 @@ Spark decision tree classification algorithm takes some parameters that can sign
     tuning.sortBy(_._2).reverse.foreach{
       x => println(x._1 + " " + x._2 + " " + x._3+ " " + x._3)
     }
-
+```
 Example output can look like that:
 (gini,20,32) 0.7591468068014129 0.8795698924731182 0.9094022702677811, 0.8795698924731183
 (gini,20,36) 0.7561452549554005 0.8779569892473118 0.9069982737027384 0.8779569892473119
