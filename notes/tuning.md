@@ -10,13 +10,7 @@ There is no simple theory that tells what values should be used. Answer can be f
         maxDepth <- Range(5, 25, 5);
         maxBins <- Range(10, 50, 2)
       ) yield {
-        val model = DecisionTree.trainClassifier(
-          train,
-          numClasses,
-          BikeBuyerModel.categoricalFeaturesInfo(),
-          impurity,
-          maxDepth,
-          maxBins)
+        val model = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo(), impurity, maxDepth, maxBins)
         val predictionsAndLabels = test.map {
           point => (model.predict(point.features), point.label)
         }
