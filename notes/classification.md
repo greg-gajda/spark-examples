@@ -1,4 +1,5 @@
-# H1 Classification using Decision Tree
+
+# Classification using Decision Tree
 
 Exploring internet on hot topic Machine Learning I found tutorials created by Microsoft about their SQL Server Data Mining Extensions. 
 Microsoft provides AdventureWorksDW2012 sample database under Microsoft Public License (http://msftdbprodsamples.codeplex.com/license) and uses it in data mining tutorials. Some time ago it inspired me to build and test more general and presumably more scalable solution using Apache Spark. 
