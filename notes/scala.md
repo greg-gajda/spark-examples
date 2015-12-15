@@ -208,7 +208,7 @@ Predicted: 1.0, Label: 1.0
 
 To answer questions what is the real performance of this model, what is its ability to provide correct responses, some metrics has to be evaluated.
 To further check performance of created model, test data can be used to collect predictions and expected values:
-```
+```scala
     val predictionsAndLabels = test.map { 
       point => (dtree.predict(point.features), point.label) 
     } 
