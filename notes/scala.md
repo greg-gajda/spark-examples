@@ -270,7 +270,7 @@ Accuracy is the fraction of samples that the classifier correctly predicted (bot
 In contrast to accuracy, Matthews correlation coefficient MCC is generally regarded as a balanced measure of the quality of binary classifications if the classes are of very different sizes.
 
 Mutual combination of precision and recall is called F-Measure or F-Score 2PR/(P+R) and is another metric useful for rating classification accuracy and comparing different classification models or algorithms. F-Score equal to 1 represents model with perfect precision and sensitivity whilst F-Score equal to 0 is the opposite.
-```
+```scala
 val stats = Stats(confusionMatrix(predictionsAndLabels))
 println(stats.toString)
 ```
@@ -289,21 +289,21 @@ F1 (F-Measure): 0.8731942215088282
 MCC (Matthews correlation coefficient): 0.745196185862156
 
 Some of described metrics and some additional are available in Spark’s binary metrics evaluator:
-```
+```scala
     val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
 ```
 The ROC curve (receiver operating characteristic) shows the sensitivity of the classifier by plotting the rate of true positives to the rate of false positives. In other words, the perfect classifier that makes no mistakes would hit a true positive rate of 1, without incurring any false positives. Calculating area under ROC curve allows to express this relation as single number, which with caution can be used for model comparison. High value of AUC can be treated as representation of good classification model, which reflects a lot of space under curve, when it goes to point of perfect classification. Low value of AUC is the opposite. In Spark ROC curve is available in form of RDD containing (false positive rate, true positive rate) with (0.0, 0.0) prepended and (1.0, 1.0) appended to it, and area under ROC curve is available as single value.
-```
+```scala
 val roc = metrics.roc
 val auROC = metrics.areaUnderROC
 ```
 Precision-Recall curve (Spark returns it in reverse order) is available along with area under PR curve.
-```
+```scala
     val PR = metrics.pr
     val auPR = metrics.areaUnderPR
 ```
 Values of precision, recall and f-measure can be also read from BinaryClassificationMetrics object. In this case, Spark calculates them for both classes separately:
-
+```scala
 val precision = metrics.precisionByThreshold
 precision.foreach { case (t, p) => println(s"Threshold: $t, Precision: $p") }
 
@@ -312,7 +312,7 @@ recall.foreach { case (t, r) => println(s"Threshold: $t, Recall: $r") }
 
 val f1Score = metrics.fMeasureByThreshold
 f1Score.foreach { case (t, f) => println(s"Threshold: $t, F-score: $f, Beta = 1") }
-
+```
 Example output can look like that:
 
 Threshold: 1.0, Precision: 0.8690095846645367
