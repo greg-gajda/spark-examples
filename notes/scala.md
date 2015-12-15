@@ -91,7 +91,6 @@ Both scripts (create_spark_keyspace.cql, create_bike_buyers_table.cql) are on gi
 After executing of LoadBikeBuyers.scala, keyspace “spark” and table “bike_buyers” are created, and content of bike-buyers file is loaded into it. 
 After loading data into RDD of Strings, conversion into LabeledPoint data structure can be prepared. For binary classification, labels should be negative or positive, represented by 0 or 1. Categorical features ought to be converted to numeric values 0, 1, 2 and so on. In this case, BikeBuyer flag would serve as Label, and all the rest would compose features vector. Customer Key doesn’t play any real decision role but helps prevent model overfitting. 
 Using case class that reflects raw data can make conversion into LabeledPoints a bit easier:
-
 ```
 case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String, englishEducation: String, gender: String, houseOwnerFlag: Int, maritalStatus: String, numberCarsOwned: Int, numberChildrenAtHome: Int, englishOccupation: String, region: String, totalChildren: Int, yearlyIncome: Float)
     extends LabeledPointConverter {
@@ -102,13 +101,15 @@ case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDis
 }
 ```
 LabeledPointConverter is trait that could be reused. Case class build with this trait must provide implementation of label and feature.
+```
 trait LabeledPointConverter {
   def label(): Double
   def features(): Vector
   def toLabeledPoint() = LabeledPoint(label(), features())
 }
-
+```
 BikeBuyerModel companion object is overridden and together with apply method it provides method for conversion to Vector and marking categorical features.
+```
 object BikeBuyerModel {
 
   def apply(row: Array[String]) = new BikeBuyerModel(
@@ -164,10 +165,13 @@ object BikeBuyerModel {
     model.totalChildren.toDouble,
     model.yearlyIncome)
 }
+```
 Now, acquiring data in format required by Spark is quite easy:
+```
     val data = bbFile.map { row => 
       BikeBuyerModel(row.split("\\t")).toLabeledPoint 
     }
+```
 After that, data can be split into train and test parts, to conform cross-validation method, when model is trained with part of dataset and its performance is evaluated with another part:
     val Array(train, test) = data.randomSplit(Array(.9, .1))
 It seems to be a good moment to cache data for further reuse:
