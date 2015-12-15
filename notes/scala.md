@@ -9,7 +9,7 @@ val applicationName = "Decision Tree Algorithm as classifier of Bike Buyers"
 
 Function which returns configuration for running application in local mode with as many worker threads as logical cores available and with defined access to Cassandra is defined:
 
-```
+```scala
 def local: SparkConf = {
     val conf = new SparkConf().setAppName(applicationName)
     conf.setMaster("local[*]")
@@ -18,7 +18,7 @@ def local: SparkConf = {
 }
 ```
 And to run application in Standalone Cluster mode:
-```
+```scala
 def cluster: SparkConf = {
     val conf = new SparkConf().setAppName(applicationName)
     conf.setMaster("spark://192.168.1.15:7077")
