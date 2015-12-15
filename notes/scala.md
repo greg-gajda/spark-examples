@@ -223,10 +223,10 @@ To further check performance of created model, test data can be used to collect 
     } 
 ```
 In general, predictions of each data point from bike buyers dataset can be assigned to one of four categories: 
-*True Positive, when buyer is predicted as buyer,
-*True Negative, when not buyer is predicted as not buyer,
-*False Positive, when not buyer is predicted as buyer,
-*False Negative, when buyer predicted as not buyer.
+* True Positive, when buyer is predicted as buyer,
+* True Negative, when not buyer is predicted as not buyer,
+* False Positive, when not buyer is predicted as buyer,
+* False Negative, when buyer predicted as not buyer.
 
 Calculations can look like that:
 ```scala
@@ -284,18 +284,20 @@ val stats = Stats(confusionMatrix(predictionsAndLabels))
 println(stats.toString)
 ```
 Example output can look like that:
+<div class="console">
+TP: 816.0, TN: 807.0, FP: 123.0, FN: 114.0 <br>
+TPR (recall/sensitivity): 0.8774193548387097 <br> 
+TNR (specificity): 0.867741935483871 <br>
+PPV (precision): 0.8690095846645367 <br>
+NPV: 0.8762214983713354 <br>
+FPR (fall-out): 0.13225806451612898 <br>
+FNR: 0.1225806451612903 <br>
+FDR: 0.1309904153354633 <br>
+ACC (accuracy): 0.8725806451612903 <br>
+F1 (F-Measure): 0.8731942215088282 <br>
+MCC (Matthews correlation coefficient): 0.745196185862156 <br>
+</div>
 
-TP: 816.0, TN: 807.0, FP: 123.0, FN: 114.0 
-TPR (recall/sensitivity): 0.8774193548387097 
-TNR (specificity): 0.867741935483871 
-PPV (precision): 0.8690095846645367 
-NPV: 0.8762214983713354 
-FPR (fall-out): 0.13225806451612898 
-FNR: 0.1225806451612903 
-FDR: 0.1309904153354633 
-ACC (accuracy): 0.8725806451612903 
-F1 (F-Measure): 0.8731942215088282 
-MCC (Matthews correlation coefficient): 0.745196185862156
 
 Some of described metrics and some additional are available in Spark’s binary metrics evaluator:
 ```scala
