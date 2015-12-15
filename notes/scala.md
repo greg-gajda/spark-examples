@@ -42,20 +42,20 @@ def localFile: (SparkContext => RDD[String]) = sc => {
 }
 ```
 Using HDFS requires Hadoop being configured and available. The only difference in code is that instead of providing file path, HDFS URL is to be supplied. 192.168.1.15:9000 reflects my local network Hadoop Cluster configuration, so it ought to be replaced with some alternative.
-```
+```scala
 def hdfsFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers")
 }
 ```
 CassandraRows are mapped into Strings, only to keep the same form, as after reading from text file. More reasonably solution could transform rows directly into something more useful.
-```
+```scala
 def cassandraFile: (SparkContext => RDD[String]) = sc => {
     import com.datastax.spark.connector._
     sc.cassandraTable("spark", "bike_buyers").map { row => row.columnValues.mkString("\t") }
 }
 ```
 To load data into Cassandra simple ETL program written in Scala can look like this:
-```
+```scala
 object LoadBikeBuyers {
 
   def main(args: Array[String]): Unit = {
