@@ -1,3 +1,5 @@
+#Java 8 version of classification using Decision Tree
+
 There are some differences in using Spark from Java. 
 The most important is that instead of SparkContext its java friendly version called JavaSparkContext must be used. 
 Methods of this class returns java wrappers of RDD objects (JavaRDD) and works with Java collections. 
