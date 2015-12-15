@@ -218,26 +218,26 @@ new BikeBuyerModelJava(r.split("\\t")).toLabeledPoint()
 );
 ```
 Splitting data set for training and testing also looks a bit different in Java:
-
-  JavaRDD<LabeledPoint>[] split = data.randomSplit(
-new double[] { .9, .1 }
-  );
+```
+  JavaRDD<LabeledPoint>[] split = data.randomSplit( new double[] { .9, .1 } );
   JavaRDD<LabeledPoint> train = split[0].cache();
   JavaRDD<LabeledPoint> test = split[1].cache();
-
+```
 Now classification model can be built:
+```
   Integer numClasses = 2;
   String impurity = "entropy";
   Integer maxDepth = 20;
   Integer maxBins = 34;
 
   final DecisionTreeModel dtree = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModelJava.categoricalFeaturesInfo(), impurity, maxDepth, maxBins); 
-
+```
 After displaying first 5 predictions:
-  test.take(5).forEach(x -> {
-System.out.println(String.format("Predicted: %.1f, Label: %.1f", dtree.predict(x.features()), x.label()));	
-  });
-
+```
+test.take(5).forEach(x -> { 
+  System.out.println(String.format("Predicted: %.1f, Label: %.1f", dtree.predict(x.features()), x.label()));	
+});
+```
 With sample output:
 
 Predicted: 1,0, Label: 1,0
