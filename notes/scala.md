@@ -2,6 +2,7 @@ In Spark program first thing is to create SparkConf object that contains informa
 val applicationName = 
 "Decision Tree Algorithm as classifier of Bike Buyers"
 Function which returns configuration for running application in local mode with as many worker threads as logical cores available and with defined access to Cassandra is defined:
+
   def local: SparkConf = {
     val conf = new SparkConf().setAppName(applicationName)
     conf.setMaster("local[*]")
@@ -22,24 +23,34 @@ And to run application in Standalone Cluster mode:
 Single node Cassandra is available on default port 9042 at:
 
   val cassandraHost = "127.0.0.1"
+
 and to use it from Spark, location of Cassandra must be added to spark configuration as shown above.
+
 Functions to load data from local storage, HDFS and Cassandra go as follow. To run on cluster, local file should be located on network storage available for every Spark’s workers or copied to exactly the same location on every node.
+
   def localFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("data/bike-buyers")
   }
+
 Using HDFS requires Hadoop being configured and available. The only difference in code is that instead of providing file path, HDFS URL is to be supplied. 192.168.1.15:9000 reflects my local network Hadoop Cluster configuration, so it ought to be replaced with some alternative.
+
   def hdfsFile: (SparkContext => RDD[String]) = sc => {
     sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers")
   }
+
 CassandraRows are mapped into Strings, only to keep the same form, as after reading from text file. More reasonably solution could transform rows directly into something more useful.
+
   def cassandraFile: (SparkContext => RDD[String]) = sc => {
     import com.datastax.spark.connector._
     sc.cassandraTable("spark", "bike_buyers").map { row =>
       row.columnValues.mkString("\t")
     }
   }
+
 To load data into Cassandra simple ETL program written in Scala can look like this:
+
 object LoadBikeBuyers {
+
   def main(args: Array[String]): Unit = {
 
     org.apache.log4j.BasicConfigurator.configure()
