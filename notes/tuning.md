@@ -26,7 +26,7 @@ There is no simple theory that tells what values should be used. Answer can be f
 ```
 Example output can look like that:
 <br>
-<div>
+<div class = "console">
 (gini,20,32) 0.7591468068014129 0.8795698924731182 0.9094022702677811, 0.8795698924731183
 <br>
 (gini,20,36) 0.7561452549554005 0.8779569892473118 0.9069982737027384 0.8779569892473119
