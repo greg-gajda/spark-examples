@@ -241,12 +241,13 @@ test.take(5).forEach(x -> {
 });
 ```
 With sample output:
-
-Predicted: 1,0, Label: 1,0
-Predicted: 1,0, Label: 1,0
-Predicted: 1,0, Label: 1,0
-Predicted: 1,0, Label: 1,0
-Predicted: 0,0, Label: 0,0
+<div class = "console">
+Predicted: 1,0, Label: 1,0 <br>
+Predicted: 1,0, Label: 1,0 <br>
+Predicted: 1,0, Label: 1,0 <br>
+Predicted: 1,0, Label: 1,0 <br>
+Predicted: 0,0, Label: 0,0 <br>
+</div>
 
 Metrics can be evaluated:
 ```java
