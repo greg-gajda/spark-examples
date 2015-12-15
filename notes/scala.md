@@ -250,18 +250,28 @@ class Stats(val tp: Int, val tn: Int, val fp: Int, val fn: Int) {
 }
 ```
 True positive rate TPR, called also recall or sensitivity is defined as the number of samples correctly predicted as belonging to the positive class (true positives) divided by the total number of elements that actually belong to the positive class (i.e. the sum of true positives and false negatives, which are items which were not predicted as belonging to the positive class but should have been)
-True negative rate TNR, called also specificity is measure of samples correctly predicted as belonging to negative class divided by the total number of elements actually belonging to the negative class.
-Positive predictive value, called also precision is the proportion of samples correctly predicted as belonging to the positive class (true positives) divided by the total number of elements predicted as belonging to the positive class (i.e. the sum of true positives and false positives, which are items incorrectly predicted as belonging to the class).
-Negative predictive value is the proportion of samples correctly predicted as negative divided by the total number of true negative results.
-False positive rate, called also fall-out is closely related to specificity and is equal to 1 - specificity.
-False negative rate is closely related to sensitivity and is equal to 1 - recall.
-False discovery rate is closely related to precision and is equal to 1 - precision.
-Accuracy is the fraction of samples that the classifier correctly predicted (both positive and negative) to the total number of samples in test data set. Accuracy makes no  distinction between classes; correct answers for both positive and negative cases are treated equally. When cost of misclassification is different or if there are a lot more test data of one class than the other, then accuracy would give a very distorted picture, because the class with more examples will dominate the statistic. Bike buyers data set is balanced, it contains 9132 positive and 9352 negative examples.
-In contrast to accuracy, Matthews correlation coefficient MCC is generally regarded as a balanced measure of the quality of binary classifications if the classes are of very different sizes.
-Mutual combination of precision and recall is called F-Measure or F-Score 2PR/(P+R) and is another metric useful for rating classification accuracy and comparing different classification models or algorithms. F-Score equal to 1 represents model with perfect precision and sensitivity whilst F-Score equal to 0 is the opposite.
-  val stats = Stats(confusionMatrix(predictionsAndLabels))
-  println(stats.toString)
 
+True negative rate TNR, called also specificity is measure of samples correctly predicted as belonging to negative class divided by the total number of elements actually belonging to the negative class.
+
+Positive predictive value, called also precision is the proportion of samples correctly predicted as belonging to the positive class (true positives) divided by the total number of elements predicted as belonging to the positive class (i.e. the sum of true positives and false positives, which are items incorrectly predicted as belonging to the class).
+
+Negative predictive value is the proportion of samples correctly predicted as negative divided by the total number of true negative results.
+
+False positive rate, called also fall-out is closely related to specificity and is equal to 1 - specificity.
+
+False negative rate is closely related to sensitivity and is equal to 1 - recall.
+
+False discovery rate is closely related to precision and is equal to 1 - precision.
+
+Accuracy is the fraction of samples that the classifier correctly predicted (both positive and negative) to the total number of samples in test data set. Accuracy makes no  distinction between classes; correct answers for both positive and negative cases are treated equally. When cost of misclassification is different or if there are a lot more test data of one class than the other, then accuracy would give a very distorted picture, because the class with more examples will dominate the statistic. Bike buyers data set is balanced, it contains 9132 positive and 9352 negative examples.
+
+In contrast to accuracy, Matthews correlation coefficient MCC is generally regarded as a balanced measure of the quality of binary classifications if the classes are of very different sizes.
+
+Mutual combination of precision and recall is called F-Measure or F-Score 2PR/(P+R) and is another metric useful for rating classification accuracy and comparing different classification models or algorithms. F-Score equal to 1 represents model with perfect precision and sensitivity whilst F-Score equal to 0 is the opposite.
+```
+val stats = Stats(confusionMatrix(predictionsAndLabels))
+println(stats.toString)
+```
 Example output can look like that:
 
 TP: 816.0, TN: 807.0, FP: 123.0, FN: 114.0 
@@ -275,33 +285,34 @@ FDR: 0.1309904153354633
 ACC (accuracy): 0.8725806451612903 
 F1 (F-Measure): 0.8731942215088282 
 MCC (Matthews correlation coefficient): 0.745196185862156
+
 Some of described metrics and some additional are available in Spark’s binary metrics evaluator:
+```
     val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
+```
 The ROC curve (receiver operating characteristic) shows the sensitivity of the classifier by plotting the rate of true positives to the rate of false positives. In other words, the perfect classifier that makes no mistakes would hit a true positive rate of 1, without incurring any false positives. Calculating area under ROC curve allows to express this relation as single number, which with caution can be used for model comparison. High value of AUC can be treated as representation of good classification model, which reflects a lot of space under curve, when it goes to point of perfect classification. Low value of AUC is the opposite. In Spark ROC curve is available in form of RDD containing (false positive rate, true positive rate) with (0.0, 0.0) prepended and (1.0, 1.0) appended to it, and area under ROC curve is available as single value.
-    val roc = metrics.roc
-    val auROC = metrics.areaUnderROC
-Precision-Recall curve (Spark returns it in reverse order) is available along with area under PR curve
+```
+val roc = metrics.roc
+val auROC = metrics.areaUnderROC
+```
+Precision-Recall curve (Spark returns it in reverse order) is available along with area under PR curve.
+```
     val PR = metrics.pr
     val auPR = metrics.areaUnderPR
+```
 Values of precision, recall and f-measure can be also read from BinaryClassificationMetrics object. In this case, Spark calculates them for both classes separately:
-    val precision = metrics.precisionByThreshold
-    precision.foreach {
-      case (t, p) =>
-        println(s"Threshold: $t, Precision: $p")
-    }
 
-    val recall = metrics.recallByThreshold
-    recall.foreach {
-      case (t, r) =>
-        println(s"Threshold: $t, Recall: $r")
-    }
-    val f1Score = metrics.fMeasureByThreshold
-    f1Score.foreach {
-      case (t, f) =>
-        println(s"Threshold: $t, F-score: $f, Beta = 1")
-    }
+val precision = metrics.precisionByThreshold
+precision.foreach { case (t, p) => println(s"Threshold: $t, Precision: $p") }
+
+val recall = metrics.recallByThreshold
+recall.foreach { case (t, r) => println(s"Threshold: $t, Recall: $r") }
+
+val f1Score = metrics.fMeasureByThreshold
+f1Score.foreach { case (t, f) => println(s"Threshold: $t, F-score: $f, Beta = 1") }
 
 Example output can look like that:
+
 Threshold: 1.0, Precision: 0.8690095846645367
 Threshold: 0.0, Precision: 0.5
 Threshold: 1.0, Recall: 0.8774193548387097
