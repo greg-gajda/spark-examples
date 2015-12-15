@@ -5,7 +5,8 @@ In Spark program first thing is to create SparkConf object that contains informa
 
 Function which returns configuration for running application in local mode with as many worker threads as logical cores available and with defined access to Cassandra is defined:
 
-```  def local: SparkConf = {
+```
+  def local: SparkConf = {
     val conf = new SparkConf().setAppName(applicationName)
     conf.setMaster("local[*]")
     conf.set("spark.cassandra.connection.host", cassandraHost)
@@ -13,7 +14,7 @@ Function which returns configuration for running application in local mode with 
   }
 ```
 And to run application in Standalone Cluster mode:
-
+```
   def cluster: SparkConf = {
     val conf = new SparkConf().setAppName(applicationName)
     conf.setMaster("spark://192.168.1.15:7077")
@@ -21,7 +22,7 @@ And to run application in Standalone Cluster mode:
     conf.set("spark.cassandra.connection.host", cassandraHost)
     conf
   }
-
+```
 Single node Cassandra is available on default port 9042 at:
 
   val cassandraHost = "127.0.0.1"
