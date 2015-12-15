@@ -170,9 +170,7 @@ object BikeBuyerModel {
 ```
 Now, acquiring data in format required by Spark is quite easy:
 ```
-val data = bbFile.map { row => 
-    BikeBuyerModel(row.split("\\t")).toLabeledPoint 
-}
+val data = bbFile.map { row => BikeBuyerModel(row.split("\\t")).toLabeledPoint }
 ```
 After that, data can be split into train and test parts, to conform cross-validation method, when model is trained with part of dataset and its performance is evaluated with another part:
     val Array(train, test) = data.randomSplit(Array(.9, .1))
