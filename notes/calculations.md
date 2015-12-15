@@ -1,3 +1,5 @@
+#Example calculations
+
 Suppose after random split, test data set contains 1774 samples, 875 positive and 899 negative. 
 If trained classifier predicts 855 samples as true with 751 actually true, and predicted 919 as false with 795 being false, then Confusion matrix will be:
 
