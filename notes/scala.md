@@ -49,9 +49,7 @@ CassandraRows are mapped into Strings, only to keep the same form, as after read
 ```
 def cassandraFile: (SparkContext => RDD[String]) = sc => {
     import com.datastax.spark.connector._
-    sc.cassandraTable("spark", "bike_buyers").map { row =>
-        row.columnValues.mkString("\t")
-    }
+    sc.cassandraTable("spark", "bike_buyers").map { row => row.columnValues.mkString("\t") }
 }
 ```
 To load data into Cassandra simple ETL program written in Scala can look like this:
