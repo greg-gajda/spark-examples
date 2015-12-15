@@ -220,7 +220,7 @@ In general, predictions of each data point from bike buyers dataset can be assig
 •	False Negative, when buyer predicted as not buyer.
 
 Calculations can look like that:
-```
+```scala
 val (tp, tn, fp, fn) = predictionsAndLabels.aggregate((0, 0, 0, 0))(
     seqOp = (t, pal) => {
         val (tp, tn, fp, fn) = t
