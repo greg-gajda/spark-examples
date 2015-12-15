@@ -95,7 +95,7 @@ Both scripts (create_spark_keyspace.cql, create_bike_buyers_table.cql) are on gi
 After executing of LoadBikeBuyers.scala, keyspace “spark” and table “bike_buyers” are created, and content of bike-buyers file is loaded into it. 
 After loading data into RDD of Strings, conversion into LabeledPoint data structure can be prepared. For binary classification, labels should be negative or positive, represented by 0 or 1. Categorical features ought to be converted to numeric values 0, 1, 2 and so on. In this case, BikeBuyer flag would serve as Label, and all the rest would compose features vector. Customer Key doesn’t play any real decision role but helps prevent model overfitting. 
 Using case class that reflects raw data can make conversion into LabeledPoints a bit easier:
-```
+```scala
 case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String, englishEducation: String, gender: String, houseOwnerFlag: Int, maritalStatus: String, numberCarsOwned: Int, numberChildrenAtHome: Int, englishOccupation: String, region: String, totalChildren: Int, yearlyIncome: Float)
     extends LabeledPointConverter {
 
@@ -105,7 +105,7 @@ case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDis
 }
 ```
 LabeledPointConverter is trait that could be reused. Case class build with this trait must provide implementation of label and feature.
-```
+```scala
 trait LabeledPointConverter {
   def label(): Double
   def features(): Vector
@@ -113,7 +113,7 @@ trait LabeledPointConverter {
 }
 ```
 BikeBuyerModel companion object is overridden and together with apply method it provides method for conversion to Vector and marking categorical features.
-```
+```scala
 object BikeBuyerModel {
 
   def apply(row: Array[String]) = new BikeBuyerModel(
@@ -171,20 +171,20 @@ object BikeBuyerModel {
 }
 ```
 Now, acquiring data in format required by Spark is quite easy:
-```
+```scala
 val data = bbFile.map { row => BikeBuyerModel(row.split("\\t")).toLabeledPoint }
 ```
 After that, data can be split into train and test parts, to conform cross-validation method, when model is trained with part of dataset and its performance is evaluated with another part:
-```
+```scala
 val Array(train, test) = data.randomSplit(Array(.9, .1))
 ```
 It seems to be a good moment to cache data for further reuse:
-```
+```scala
 train.cache()
 test.cache()
 ```
 Now Spark’s classification decision tree algorithm can be trained:
-```
+```scala
 val numClasses = 2
 val impurity = "entropy" 
 val maxDepth = 20
@@ -193,7 +193,7 @@ val maxBins = 24
 val dtree = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo(), impurity, maxDepth, maxBins)
 ```
 Trained model can be used for prediction of whether potential customer is going to buy a bicycle or not:
-```
+```scala
     test.take(5).foreach {
       x => println(s"Predicted: ${dtree.predict(x.features)}, actual value: ${x.label}")
     }
