@@ -3,9 +3,17 @@
 Suppose after random split, test data set contains 1774 samples, 875 positive and 899 negative. 
 If trained classifier predicts 855 samples as true with 751 actually true, and predicted 919 as false with 795 being false, then Confusion matrix will be:
 
-			Predicted as negative	Predicted as positive
-Labelled as negative 	795.0  	(TN)		104.0  (FP)
-Labelled as positive	124.0  	(FN)		751.0  (TP)
+|			         |Predicted as negative	|Predicted as positive|
+| ------------------ |:------------:| ----------------:|
+|Labelled as negative| 	795.0  	(TN)|		104.0  (FP)|
+|Labelled as positive|	124.0  	(FN)|		751.0  (TP)|
+
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
 
 Overall accuracy is (751 + 795)/(875 + 899) = 1546/1774 = 0.871, and misclassification for class 0 and 1 is 104/899 = 0,115 and 124/875 = 0,145 accordingly. 
 For positive class Precision equals to 751/855 = 0,8783 and Recall equals to 751/875 = 0,8582. 
