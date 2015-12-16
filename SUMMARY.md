@@ -5,5 +5,5 @@
     * [Example calculations](notes/dt-calculations.md)
     * [Java 8 version of classification using Decision Tree](notes/dt-java.md)
     * [Decision Trees Tuning](notes/dt-tuning.md)
-* [Ensembles of Classifiers](rf-classification.md)
+* [Ensembles of Classifiers](notes/rf-classification.md)
     * [Random Forest]()
