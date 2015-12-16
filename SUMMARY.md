@@ -6,7 +6,6 @@
     * [Java 8 example](notes/dt-java.md)
     * [Decision Trees Tuning](notes/dt-tuning.md)
 * [Ensembles of Classifiers - Random Forest](notes/rf-classification.md)
-    * [Scala example]()
     * [Java 8 example]()
     * [Random Forest Tuning](notes/rf-tuning.md)
 * [Comparison performance of classification algorithms]()
