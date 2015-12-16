@@ -1,3 +1,4 @@
+Java 8 version on binary classification Random Forest:
 ```java
 try (JavaSparkContext sc = new JavaSparkContext(configLocalMode())) {
 	JavaRDD<String> bbFile = localFile(sc);
