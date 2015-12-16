@@ -6,5 +6,5 @@ In Spark Random Forest model is created on decision tree algorithm with default 
 where each tree votes on classification, and higher number of votes wins.
 
 According to Spark documentation Random forests are one of the most successful machine learning models for classification and regression,
-with reduced risk of overfitting. 
+with reduced risk of over-fitting. 
 The algorithm injects randomness into the training process so that each decision tree is a bit different.
