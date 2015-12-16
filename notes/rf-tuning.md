@@ -1,3 +1,39 @@
+The whole tuning program which tests different number of trees:
+
+```scala
+val sc = new SparkContext(configLocalMode)
+    val bbFile = localFile(sc)
+
+    val data = bbFile.map { row =>
+      BikeBuyerModel(row.split("\\t")).toLabeledPoint
+    }
+
+    val Array(train, test) = data.randomSplit(Array(.9, .1), 102059L)
+    train.cache()
+    test.cache()
+
+    val numClasses = 2
+    val featureSubsetStrategy = "auto"
+    val impurity = "entropy"
+    val maxDepth = 20
+    val maxBins = 34
+
+    val tuning = for (numTrees <- Range(2, 20)) yield {
+      val model = RandomForest.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo, numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins)
+      val predictionsAndLabels = test.map {
+        point => (model.predict(point.features), point.label)
+      }
+      val stats = Stats(confusionMatrix(predictionsAndLabels))
+      val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
+      (numTrees, stats.MCC, stats.ACC, metrics.areaUnderPR, metrics.areaUnderROC)
+    } 
+    tuning.sortBy(_._2).reverse.foreach{
+      x => println(x._1 + " " + x._2 + " " + x._3+ " " + x._4+ " " + x._5)
+    }
+    
+sc.stop()
+```
+
 Example output can look like that:
 
 <div class = "console">
