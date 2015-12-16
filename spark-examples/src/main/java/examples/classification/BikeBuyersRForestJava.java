@@ -47,7 +47,7 @@ public class BikeBuyersRForestJava {
 			String impurity = "entropy";
 			Integer maxDepth = 20;
 			Integer maxBins = 34;
-			Integer seed = 12345;
+			Integer seed = 102059;
 
 			final RandomForestModel model = RandomForest.trainClassifier(train, numClasses, BikeBuyerModelJava.categoricalFeaturesInfo(), numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins, seed);
 
