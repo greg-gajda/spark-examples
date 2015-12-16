@@ -34,7 +34,7 @@ tuning.sortBy(_._2).reverse.foreach{
 sc.stop()
 ```
 
-Sample output sorted by MCC coefficient:
+Sample output sorted by Matthews correlation coefficient:
 
 <div class = "console">
 15 0.7710216770066503 0.885483870967742 0.9149414393859618 0.8854838709677418<br>
