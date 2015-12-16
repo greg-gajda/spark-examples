@@ -17,15 +17,16 @@
 package examples.classification
 
 import org.apache.spark.SparkContext
+import org.apache.spark.annotation.Since
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
-import org.apache.spark.mllib.tree.DecisionTree
+import org.apache.spark.mllib.tree.RandomForest
 
 import examples.Application.configLocalMode
 import examples.PrintUtils.printMetrics
 import examples.classification.FilesLoader.localFile
 import examples.classification.Stats.confusionMatrix
 
-object BikeBuyersDTree {
+object BikeBuyersRForest {
 
   def main(args: Array[String]): Unit = {
 
@@ -41,18 +42,20 @@ object BikeBuyersDTree {
     test.cache()
 
     val numClasses = 2
-    val impurity = "entropy" 
+    val numTrees = 10
+    val featureSubsetStrategy = "auto"
+    val impurity = "entropy"
     val maxDepth = 20
     val maxBins = 34
 
-    val dtree = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo(), impurity, maxDepth, maxBins)
+    val model = RandomForest.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo, numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins)
 
     test.take(5).foreach {
-      x => println(s"Predicted: ${dtree.predict(x.features)}, Label: ${x.label}")
+      x => println(s"Predicted: ${model.predict(x.features)}, Label: ${x.label}")
     }
 
     val predictionsAndLabels = test.map {
-      point => (dtree.predict(point.features), point.label)
+      point => (model.predict(point.features), point.label)
     }
 
     val stats = Stats(confusionMatrix(predictionsAndLabels))
@@ -60,7 +63,7 @@ object BikeBuyersDTree {
     
     val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
     printMetrics(metrics)
-
+    
     sc.stop()
   }
 

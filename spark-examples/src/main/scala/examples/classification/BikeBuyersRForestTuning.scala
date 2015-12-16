@@ -17,15 +17,16 @@
 package examples.classification
 
 import org.apache.spark.SparkContext
+import org.apache.spark.annotation.Since
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
-import org.apache.spark.mllib.tree.DecisionTree
+import org.apache.spark.mllib.tree.RandomForest
 
 import examples.Application.configLocalMode
 import examples.PrintUtils.printMetrics
 import examples.classification.FilesLoader.localFile
 import examples.classification.Stats.confusionMatrix
 
-object BikeBuyersDTree {
+object BikeBuyersRForestTuning {
 
   def main(args: Array[String]): Unit = {
 
@@ -41,27 +42,24 @@ object BikeBuyersDTree {
     test.cache()
 
     val numClasses = 2
-    val impurity = "entropy" 
+    val featureSubsetStrategy = "auto"
+    val impurity = "entropy"
     val maxDepth = 20
     val maxBins = 34
 
-    val dtree = DecisionTree.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo(), impurity, maxDepth, maxBins)
-
-    test.take(5).foreach {
-      x => println(s"Predicted: ${dtree.predict(x.features)}, Label: ${x.label}")
+    val tuning = for (numTrees <- Range(2, 20)) yield {
+      val model = RandomForest.trainClassifier(train, numClasses, BikeBuyerModel.categoricalFeaturesInfo, numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins)
+      val predictionsAndLabels = test.map {
+        point => (model.predict(point.features), point.label)
+      }
+      val stats = Stats(confusionMatrix(predictionsAndLabels))
+      val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
+      (numTrees, stats.MCC, stats.ACC, metrics.areaUnderPR, metrics.areaUnderROC)
+    } 
+    tuning.sortBy(_._2).reverse.foreach{
+      x => println(x._1 + " " + x._2 + " " + x._3+ " " + x._4+ " " + x._5)
     }
-
-    val predictionsAndLabels = test.map {
-      point => (dtree.predict(point.features), point.label)
-    }
-
-    val stats = Stats(confusionMatrix(predictionsAndLabels))
-    println(stats.toString)
     
-    val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
-    printMetrics(metrics)
-
     sc.stop()
   }
-
 }

@@ -22,9 +22,9 @@ import org.apache.spark.SparkContext
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.DecisionTree
 
-import examples.classification.FilesLoader._
-import examples.classification.Stats._
-import examples.Application._
+import examples.Application.configLocalMode
+import examples.classification.FilesLoader.localFile
+import examples.classification.Stats.confusionMatrix
 
 object BikeBuyersDTreeTuning {
   
@@ -60,10 +60,8 @@ object BikeBuyersDTreeTuning {
           point => (model.predict(point.features), point.label)
         }
         val stats = Stats(confusionMatrix(predictionsAndLabels))
-        val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
-        val auPR = metrics.areaUnderPR()
-        val auROC = metrics.areaUnderROC()        
-        ((impurity, maxDepth, maxBins), stats.MCC, stats.ACC, auPR, auROC)
+        val metrics = new BinaryClassificationMetrics(predictionsAndLabels)        
+        ((impurity, maxDepth, maxBins), stats.MCC, stats.ACC, metrics.areaUnderPR, metrics.areaUnderROC)
       }
     tuning.sortBy(_._2).reverse.foreach{
       x => println(x._1 + " " + x._2 + " " + x._3+ " " + x._4+ " " + x._5)
