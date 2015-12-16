@@ -1,4 +1,4 @@
-Java 8 version on binary classification Random Forest:
+Java 8 version on binary classification by Random Forest:
 ```java
 try (JavaSparkContext sc = new JavaSparkContext(configLocalMode())) {
 	JavaRDD<String> bbFile = localFile(sc);
