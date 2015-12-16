@@ -8,5 +8,5 @@
 * [Ensembles of Classifiers - Random Forest](notes/rf-classification.md)
     * [Scala example]()
     * [Java 8 example]()
-    * [Random Forest Tuning]()
+    * [Random Forest Tuning](notes/rf-tuning.md)
 * [Comparison performance of classification algorithms]()
