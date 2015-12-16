@@ -1,4 +1,4 @@
-The whole tuning program which tests different number of trees:
+The whole tuning program which tests Random Forest algorithm with different number of trees:
 
 ```scala
 val sc = new SparkContext(configLocalMode)
