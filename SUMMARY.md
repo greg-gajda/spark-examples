@@ -1,9 +1,9 @@
 # Table of content
 
 * [Binary Classification using Decision Tree](notes/dt-classification.md)
-    * [Example in Scala](notes/dt-scala.md)
-    * [Example calculations](notes/dt-calculations.md)
+    * [Scala example](notes/dt-scala.md)
+    * [Sample calculations](notes/dt-calculations.md)
     * [Java 8 version of classification using Decision Tree](notes/dt-java.md)
     * [Decision Trees Tuning](notes/dt-tuning.md)
-* [Ensembles of Classifiers](notes/rf-classification.md)
-    * [Random Forest]()
+* [Ensembles of Classifiers - Random Forest](notes/rf-classification.md)
+    * [Scala example]()
