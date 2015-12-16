@@ -9,4 +9,4 @@
     * [Scala example]()
     * [Java 8 example]()
     * [Random Forest Tuning]()
-* [Comparison performance of classification algoriths]()
+* [Comparison performance of classification algorithms]()
