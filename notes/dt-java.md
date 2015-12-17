@@ -251,10 +251,10 @@ Predicted: 0,0, Label: 0,0 <br>
 
 Metrics can be evaluated:
 ```java
-JavaRDD<Tuple2<Object, Object>> predictionsAndLabels = test.map(p -> 
-	new Tuple2<Object, Object>(dtree.predict(p.features()), p.label())
+JavaPairRDD<Object, Object> predictionsAndLabels = test.mapToPair(
+    p -> new Tuple2<Object, Object>(dtree.predict(p.features()), p.label())
 );
-  
+
 Stats stats = Stats.apply(confusionMatrix(predictionsAndLabels.rdd()));
 System.out.println(stats.toString());
 
