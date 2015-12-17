@@ -17,10 +17,11 @@
 package examples.classification;
 
 import static examples.Application.configLocalMode;
+import static examples.PrintUtils.printMetrics;
 import static examples.classification.FilesLoaderJava.localFile;
 import static examples.classification.Stats.confusionMatrix;
-import static examples.PrintUtils.printMetrics;
 
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
@@ -54,9 +55,9 @@ public class BikeBuyersDTreeJava {
 		    	System.out.println(String.format("Predicted: %.1f, Label: %.1f", dtree.predict(x.features()), x.label()));	
 		    });
 
-			JavaRDD<Tuple2<Object, Object>> predictionsAndLabels = test.map(p -> 
-				new Tuple2<Object, Object>(dtree.predict(p.features()), p.label())
-			);
+		    JavaPairRDD<Object, Object> predictionsAndLabels = test.mapToPair(
+		    	p -> new Tuple2<Object, Object>(dtree.predict(p.features()), p.label())
+		    );
 			
 		    Stats stats = Stats.apply(confusionMatrix(predictionsAndLabels.rdd()));
 		    System.out.println(stats.toString());

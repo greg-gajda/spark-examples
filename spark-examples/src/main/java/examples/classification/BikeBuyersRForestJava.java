@@ -21,6 +21,7 @@ import static examples.PrintUtils.printMetrics;
 import static examples.classification.FilesLoaderJava.localFile;
 import static examples.classification.Stats.confusionMatrix;
 
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
@@ -55,9 +56,9 @@ public class BikeBuyersRForestJava {
 		    	System.out.println(String.format("Predicted: %.1f, Label: %.1f", model.predict(x.features()), x.label()));	
 		    });
 
-			JavaRDD<Tuple2<Object, Object>> predictionsAndLabels = test.map(p -> 
-				new Tuple2<Object, Object>(model.predict(p.features()), p.label())
-			);
+		    JavaPairRDD<Object, Object> predictionsAndLabels = test.mapToPair(
+				p -> new Tuple2<Object, Object>(model.predict(p.features()), p.label())
+		    );
 			
 		    Stats stats = Stats.apply(confusionMatrix(predictionsAndLabels.rdd()));
 		    System.out.println(stats.toString());
