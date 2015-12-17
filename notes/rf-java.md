@@ -23,9 +23,9 @@ try (JavaSparkContext sc = new JavaSparkContext(configLocalMode())) {
     	System.out.println(String.format("Predicted: %.1f, Label: %.1f", model.predict(x.features()), x.label()));	
     });
 
-	JavaRDD<Tuple2<Object, Object>> predictionsAndLabels = test.map(p -> 
-		new Tuple2<Object, Object>(model.predict(p.features()), p.label())
-	);
+    JavaPairRDD<Object, Object> predictionsAndLabels = test.mapToPair(
+	    p -> new Tuple2<Object, Object>(model.predict(p.features()), p.label())
+    );
 	
     Stats stats = Stats.apply(confusionMatrix(predictionsAndLabels.rdd()));
     System.out.println(stats.toString());
