@@ -9,7 +9,7 @@ Evaluation linear regression algorithm, at least few things ought to be taken in
 Application name is set to:
 
 ```scala
-val classificationApp = "Classification of customers by using Decision Tree"
+val regressionApp = "Decision Tree Algorithm as classifier of Bike Buyers"
 ```
 Spark's linear regression like classification algorithms work with LabeledPoint data structure.
 Using case class that reflects raw data can make conversion into LabeledPoints a bit easier:
