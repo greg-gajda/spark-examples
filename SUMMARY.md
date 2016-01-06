@@ -8,7 +8,7 @@
     * [Classification by using Ensembles of Classifiers](notes/classification/rf-classification.md)
     * [Random Forest Java 8 example](notes/classification/rf-java.md)
     * [Tuning Random Forest algorithm](notes/classification/rf-tuning.md)
-* [Performance comparison of classification algorithms]
+    * [Performance comparison of classification algorithms]
 * [Predicting House prices by using different regression algorithms](notes/regression/regression-algorithms.md)
     * [Linear regression in Scala](notes/regression/lr-scala.md) 
     * [Decision tree in Scala](notes/regression/dt-scala.md) 
