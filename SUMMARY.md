@@ -12,6 +12,7 @@
 * [Predicting House prices by using different regression algorithms](notes/regression/regression-algorithms.md)
     * [Linear regression in Scala](notes/regression/lr-scala.md) 
     * [Decision tree in Scala](notes/regression/dt-scala.md) 
+    * [Model evaluation](notes/regression/evaluation-scala.md) 
 
 
 
