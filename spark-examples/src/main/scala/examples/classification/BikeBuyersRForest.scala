@@ -21,6 +21,7 @@ import org.apache.spark.annotation.Since
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.RandomForest
 
+import examples.common.Application.classificationApp
 import examples.common.Application.configLocalMode
 import examples.PrintUtils.printMetrics
 import examples.common.DataLoader.localFile
@@ -30,7 +31,7 @@ object BikeBuyersRForest {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configLocalMode)
+    val sc = new SparkContext(configLocalMode(classificationApp))
     val bbFile = localFile("bike-buyers.txt")(sc)
 
     val data = bbFile.map { row =>

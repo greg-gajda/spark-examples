@@ -21,15 +21,24 @@ import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.linalg.Vector
 import examples.common.LabeledPointConverter
 
-case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String,
-                          englishEducation: String, gender: String, houseOwnerFlag: Int,
-                          maritalStatus: String, numberCarsOwned: Int, numberChildrenAtHome: Int,
-                          englishOccupation: String, region: String, totalChildren: Int, yearlyIncome: Float)
+case class BikeBuyerModel(customerKey: Int,
+                          age: Int, 
+                          bikeBuyer: Int, 
+                          commuteDistance: String,
+                          englishEducation: String, 
+                          gender: String, 
+                          houseOwnerFlag: Int,
+                          maritalStatus: String, 
+                          numberCarsOwned: Int, 
+                          numberChildrenAtHome: Int,
+                          englishOccupation: String, 
+                          region: String, 
+                          totalChildren: Int, 
+                          yearlyIncome: Float)
     extends LabeledPointConverter {
 
   def label() = bikeBuyer.toDouble
   def features() = BikeBuyerModel.convert(this)
-
 }
 
 object BikeBuyerModel {

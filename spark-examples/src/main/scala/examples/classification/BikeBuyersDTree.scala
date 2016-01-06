@@ -21,6 +21,7 @@ import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.DecisionTree
 
 import examples.common.Application.configLocalMode
+import examples.common.Application.classificationApp
 import examples.PrintUtils.printMetrics
 import examples.common.DataLoader.localFile
 import examples.classification.Stats.confusionMatrix
@@ -29,7 +30,7 @@ object BikeBuyersDTree {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configLocalMode)
+    val sc = new SparkContext(configLocalMode(classificationApp))
     val bbFile = localFile("bike-buyers.txt")(sc)
 
     val data = bbFile.map { row =>

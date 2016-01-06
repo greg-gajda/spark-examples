@@ -22,12 +22,12 @@ import org.apache.spark.SparkContext
 object DataLoader {
   type LOAD = SparkContext => RDD[String]
 
-  def localFile(file: String): LOAD = sc => {
-    sc.textFile("data/" + file)
+  def localFile(fileName: String): LOAD = sc => {
+    sc.textFile("data/" + fileName)
   }
 
-  def hdfsFile(file: String): (SparkContext => RDD[String]) = sc => {
-    sc.textFile("hdfs://192.168.1.15:9000/spark/" + file)
+  def hdfsFile(fileName: String): (SparkContext => RDD[String]) = sc => {
+    sc.textFile("hdfs://192.168.1.15:9000/spark/" + fileName)
   }
 
   def cassandraFile: LOAD = sc => {
