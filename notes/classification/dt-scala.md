@@ -102,12 +102,24 @@ After loading data into RDD of Strings, conversion into LabeledPoint data struct
 
 Using case class that reflects raw data can make conversion into LabeledPoints a bit easier:
 ```scala
-case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String, englishEducation: String, gender: String, houseOwnerFlag: Int, maritalStatus: String, numberCarsOwned: Int, numberChildrenAtHome: Int, englishOccupation: String, region: String, totalChildren: Int, yearlyIncome: Float)
+case class BikeBuyerModel(customerKey: Int,
+                          age: Int, 
+                          bikeBuyer: Int, 
+                          commuteDistance: String,
+                          englishEducation: String, 
+                          gender: String, 
+                          houseOwnerFlag: Int,
+                          maritalStatus: String, 
+                          numberCarsOwned: Int, 
+                          numberChildrenAtHome: Int,
+                          englishOccupation: String, 
+                          region: String, 
+                          totalChildren: Int, 
+                          yearlyIncome: Float)
     extends LabeledPointConverter {
 
   def label() = bikeBuyer.toDouble
   def features() = BikeBuyerModel.convert(this)
-
 }
 ```
 LabeledPointConverter is trait that could be reused. Case class build with this trait must provide implementation of label and feature.
