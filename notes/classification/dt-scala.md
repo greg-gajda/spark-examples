@@ -38,10 +38,11 @@ and to use it from Spark, location of Cassandra must be added to spark configura
 
 Functions to load data from local storage, HDFS and Cassandra go as follow. To run on cluster, local file should be located on network storage available for every Spark’s workers or copied to exactly the same location on every node.
 ```scala
-def localFile: (SparkContext => RDD[String]) = sc => {
-    sc.textFile("data/bike-buyers")
+def localFile(fileName: String): (SparkContext => RDD[String]) = sc => {
+    sc.textFile("data/" + file)
 }
 ```
+File name was mentioned before: bike-buyers.txt
 Using HDFS requires Hadoop being configured and available. The only difference in code is that instead of providing file path, HDFS URL is to be supplied. 192.168.1.15:9000 reflects my local network Hadoop Cluster configuration, so it ought to be replaced with some alternative.
 
 ```scala
