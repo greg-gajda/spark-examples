@@ -1,4 +1,4 @@
-# Decision Tree Tuning 
+# Tuning Decision Tree algorithm
 
 Spark decision tree classification algorithm takes some parameters that can significantly influence quality of created model. 
 There is no simple theory that tells what values should be used. Answer can be found by iterations, and selecting model with best characteristics. 
