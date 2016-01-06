@@ -3,10 +3,8 @@
 Function which creates decision tree model for regression can look like that:
 
 ```scala
-  def createDecisionTreeRegressionModel(rdd: RDD[LabeledPoint]) = {
+  def createDecisionTreeRegressionModel(rdd: RDD[LabeledPoint])(maxDepth:Int = 10, maxBins:Int = 20) = {
     val impurity = "variance"
-    val maxDepth = 10
-    val maxBins = 20
     DecisionTree.trainRegressor(rdd, Map[Int, Int](), impurity, maxDepth, maxBins)
   }
 ```
