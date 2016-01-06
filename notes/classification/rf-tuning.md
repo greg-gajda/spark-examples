@@ -1,3 +1,5 @@
+# Random Forest Java 8 example
+
 The whole tuning program which tests Random Forest algorithm with different number of trees:
 
 ```scala
