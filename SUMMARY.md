@@ -9,7 +9,7 @@
     * [Random Forest Java 8 example](notes/classification/rf-java.md)
     * [Tuning Random Forest algorithm](notes/classification/rf-tuning.md)
 * [Performance comparison of classification algorithms]
-* [Predicting House prices using different linear regression algorithms](notes/regression/linear-regression.md)
+* [Predicting House prices by using different linear regression algorithms](notes/regression/linear-regression.md)
     * [Linear regression in Scala](notes/regression/lr-scala.md) 
     * [Decision tree in Scala](notes/regression/dt-scala.md) 
 
