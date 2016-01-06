@@ -89,4 +89,10 @@ And splitted into training and test set:
 ```scala
 val Array(train, test) = houses.randomSplit(Array(.9, .1), 10204L)
 ```
-In regression it is recommended that the input variables have a mean of 0. It's easy to achieve by using the StandardScaler from Spark ML
+In regression it is recommended that the input variables have a mean of 0. It's easy to achieve by using the StandardScaler from Spark MLLib.
+
+```scala
+val scaler = new StandardScaler(withMean = true, withStd = true).fit(train.map(dp => dp.features))
+val scaledTrain = train.map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).cache()
+val scaledTest = test.map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).cache()
+```
