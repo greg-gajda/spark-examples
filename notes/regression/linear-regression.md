@@ -6,4 +6,10 @@ Evaluation linear regression algorithm, at least few things ought to be taken in
 * Linear regression model 
 * Model performance
 
-Data is loaded 
+Application name is set to:
+
+```scala
+val classificationApp = "Classification of customers by using Decision Tree"
+```
+
+Data is loaded following way:
