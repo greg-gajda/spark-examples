@@ -96,3 +96,8 @@ val scaler = new StandardScaler(withMean = true, withStd = true).fit(train.map(d
 val scaledTrain = train.map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).cache()
 val scaledTest = test.map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).cache()
 ```
+Summary statistics can be calculated:
+```scala
+val stats2 = Statistics.colStats(scaledTrain.map { x => x.features })
+println(s"Max : ${stats2.max}, Min : ${stats2.min}, and Mean : ${stats2.mean} and Variance : ${stats2.variance}")
+```
