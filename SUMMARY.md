@@ -10,3 +10,8 @@
     * [Random Forest Tuning](notes/classification/rf-tuning.md)
 * [Comparison performance of classification algorithms]()
 * [Predicting House prices using different linear regression algorithms](notes/regression/linear-regression.md)
+    * [Linear regression in Scala](notes/regression/lr-scala.md) 
+    * [Decision tree in Scala](notes/regression/lr-scala.md) 
+
+
+
