@@ -27,6 +27,9 @@ Root mean squared error:
 math.sqrt(predictionsAndValues.map { case (p, v) => math.pow((v - p), 2) }.mean())
 ```
 Sample output can look like that:
+<br>
+<div class = "console">
 Mean house price: 534198.5644402637
+<div>
 Max prediction error: 1710000.0
 Root Mean Squared Error: 149589.65702292052
