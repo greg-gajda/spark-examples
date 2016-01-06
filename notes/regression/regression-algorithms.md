@@ -3,7 +3,7 @@
 Data set used in this example can be found in data folder on github (https://github.com/grzegorzgajda/spark-examples) in file house-data.csv.
 
 Evaluation regression algorithm, at least few things ought to be taken into account:
-* Linear regression model 
+* Regression model 
 * Model performance
 
 Application name is set to:
