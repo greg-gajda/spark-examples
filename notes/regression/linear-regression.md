@@ -5,3 +5,5 @@ Data set used in this example can be found in data folder on github (https://git
 Evaluation linear regression algorithm, at least few things ought to be taken into account:
 * Linear regression model 
 * Model performance
+
+Data is loaded 
