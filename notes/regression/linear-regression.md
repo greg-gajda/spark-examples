@@ -42,6 +42,41 @@ case class HouseModel(id: Long,
 }
 
 ```
+HouseModel companion object is overridden and together with apply method it provides method for conversion to Vector and marking categorical features
+```scala
+object HouseModel {
 
+  def df = new java.text.SimpleDateFormat("yyyyMMdd'T'hhmmss")
+
+  def apply(row: Array[String]) = new HouseModel(
+    row(0).toLong, row(1), 
+    row(2).toInt, row(3).toInt,
+    row(4).toFloat, row(5).toInt, row(6).toInt,
+    row(7).toFloat, row(8).toInt, row(9).toInt,
+    row(10).toInt, row(11).toInt, row(12).toInt,
+    row(13).toInt, row(14).toInt, row(15).toInt, row(16),
+    row(17).toFloat, row(18).toFloat, row(19).toInt, row(20).toInt)
+
+  def convert(model: HouseModel) = Vectors.dense(
+    model.id.toDouble,
+    model.bedrooms.toDouble,
+    model.bathrooms.toDouble,
+    model.sqft_living.toDouble,
+    model.sqft_lot.toDouble,
+    model.floors.toDouble,
+    model.waterfront.toDouble,
+    model.view.toDouble,
+    model.condition.toDouble,
+    model.grade.toDouble,
+    model.sqft_above.toDouble,
+    model.sqft_basement.toDouble,
+    model.yr_built.toDouble,
+    model.yr_renovated.toDouble,
+    model.lat.toDouble,
+    model.long.toDouble,
+    model.sqft_living15.toDouble,
+    model.sqft_lot15.toDouble)
+}
+```
 
 Data is loaded following way:
