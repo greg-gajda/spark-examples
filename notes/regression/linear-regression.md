@@ -14,4 +14,5 @@ val classificationApp = "Classification of customers by using Decision Tree"
 Spark's linear regression like classification algorithms work with LabeledPoint data structure.
 
 
+
 Data is loaded following way:
