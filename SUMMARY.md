@@ -4,7 +4,7 @@
     * [Scala example](notes/classification/dt-scala.md)
     * [Sample calculations](notes/classification/dt-calculations.md)
     * [Java 8 example](notes/classification/dt-java.md)
-    * [Decision Trees Tuning](notes/classification/dt-tuning.md)
+    * [Tuning Decision Tree algorithm](notes/classification/dt-tuning.md)
 * [Classification by using Ensembles of Classifiers](notes/classification/rf-classification.md)
     * [Random Forest Java 8 example](notes/classification/rf-java.md)
     * [Random Forest Tuning](notes/classification/rf-tuning.md)
