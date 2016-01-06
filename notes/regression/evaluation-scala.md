@@ -14,3 +14,15 @@ val predictionsAndValues = scaledTest.map {
   point => (model.predict(point.features), point.label)
 }
 ```
+Mean house price:
+```scala
+scaledTest.map { x => x.label }.mean()
+```
+Max prediction error:
+```scala
+predictionsAndValues.map { case (p, v) => math.abs(v - p) }.max
+```
+Root mean squared error:
+```scala
+math.sqrt(predictionsAndValues.map { case (p, v) => math.pow((v - p), 2) }.mean())
+```
