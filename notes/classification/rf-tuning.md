@@ -1,4 +1,4 @@
-# Random Forest Java 8 example
+# Tuning Random Forest algorithm
 
 The whole tuning program which tests Random Forest algorithm with different number of trees:
 
