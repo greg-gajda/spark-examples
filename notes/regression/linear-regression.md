@@ -2,6 +2,6 @@
 
 Data set used in this example can be found in data folder on github (https://github.com/grzegorzgajda/spark-examples) in file house-data.csv.
 
-Few things ought to be taken into account:
+Evaluation linear regression algorithm, at least few things ought to be taken into account:
 * Linear regression model 
 * Model performance
