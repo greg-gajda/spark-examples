@@ -1,4 +1,3 @@
-
 # Classification of customers by using Decision Tree
 
 Here are notes from examining some classification algorithms available in Spark’s MLLib with data excerpted from AdventureWorksDW2012 sample database. 
