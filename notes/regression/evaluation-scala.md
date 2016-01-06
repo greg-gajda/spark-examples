@@ -30,6 +30,10 @@ Sample output can look like that:
 <br>
 <div class = "console">
 Mean house price: 534198.5644402637
-<div>
+</div>
+<div class = "console">
 Max prediction error: 1710000.0
+</div>
+<div class = "console">
 Root Mean Squared Error: 149589.65702292052
+</div>
