@@ -80,3 +80,8 @@ object HouseModel {
 ```
 
 Data is loaded following way:
+```scala
+val houses = hdFile.map(_.split(",")).
+  filter { t => catching(classOf[NumberFormatException]).opt(t(0).toLong).isDefined }.
+  map { HouseModel(_).toLabeledPoint() }
+```
