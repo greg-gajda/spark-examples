@@ -1,3 +1,5 @@
+# Random Forest Java 8 example
+
 Java 8 version on binary classification by Random Forest:
 
 ```java
