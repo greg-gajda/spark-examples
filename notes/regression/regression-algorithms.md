@@ -1,4 +1,4 @@
-# Predicting House prices by using different linear regression algorithms
+# Predicting House prices by using different regression algorithms
 
 Data set used in this example can be found in data folder on github (https://github.com/grzegorzgajda/spark-examples) in file house-data.csv.
 
