@@ -5,7 +5,7 @@ In Spark program first thing is to create SparkConf object that contains informa
 It is important that only one SparkContext may be active per JVM, and should be stopped before creating new context or before exiting current application. Application name is set to:
 
 ```scala
-val applicationName = "Decision Tree Algorithm as classifier of Bike Buyers"
+val classificationApp = "Classification of customers by using Decision Tree"
 ```
 
 Function which returns configuration for running application in local mode with as many worker threads as logical cores available and with defined access to Cassandra is defined:
