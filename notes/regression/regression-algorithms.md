@@ -16,12 +16,12 @@ Using case class that reflects raw data can make conversion into LabeledPoints a
 ```scala
 case class HouseModel(id: Long,
                       date: java.sql.Date,
-                      price: Float,
+                      price: Double,
                       bedrooms: Int,
-                      bathrooms: Float,
+                      bathrooms: Double,
                       sqft_living: Int,
                       sqft_lot: Int,
-                      floors: Float,
+                      floors: Double,
                       waterfront: Int,
                       view: Int,
                       condition: Int,
@@ -31,8 +31,8 @@ case class HouseModel(id: Long,
                       yr_built: Int,
                       yr_renovated: Int,
                       zipcode: String,
-                      lat: Float,
-                      long: Float,
+                      lat: Double,
+                      long: Double,
                       sqft_living15: Int,
                       sqft_lot15: Int)
     extends LabeledPointConverter {
@@ -40,7 +40,6 @@ case class HouseModel(id: Long,
   def label() = price.toDouble
   def features() = HouseModel.convert(this)
 }
-
 ```
 HouseModel companion object is overridden and together with apply method it provides method for conversion to Vector and marking categorical features
 ```scala
