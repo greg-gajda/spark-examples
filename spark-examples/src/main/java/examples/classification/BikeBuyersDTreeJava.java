@@ -16,7 +16,7 @@
  */
 package examples.classification;
 
-import static examples.Application.configLocalMode;
+import static examples.common.Application.configLocalMode;
 import static examples.PrintUtils.printMetrics;
 import static examples.classification.FilesLoaderJava.localFile;
 import static examples.classification.Stats.confusionMatrix;

@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples
+package examples.common
 
-import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
 

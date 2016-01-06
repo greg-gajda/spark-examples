@@ -22,8 +22,8 @@ import org.apache.spark.SparkContext
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.DecisionTree
 
-import examples.Application.configLocalMode
-import examples.classification.FilesLoader.localFile
+import examples.common.Application.configLocalMode
+import examples.common.DataLoader.localFile
 import examples.classification.Stats.confusionMatrix
 
 object BikeBuyersDTreeTuning {
@@ -32,7 +32,7 @@ object BikeBuyersDTreeTuning {
     org.apache.log4j.BasicConfigurator.configure()
     
     val sc = new SparkContext(configLocalMode)
-    val bbFile = localFile(sc)
+    val bbFile = localFile("bike-buyers.txt")(sc)
 
     val data = bbFile.map { row =>
       BikeBuyerModel(row.split("\\t")).toLabeledPoint

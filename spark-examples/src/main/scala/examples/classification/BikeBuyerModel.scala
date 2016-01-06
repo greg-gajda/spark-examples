@@ -19,12 +19,7 @@ package examples.classification
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.linalg.Vector
-
-trait LabeledPointConverter {
-  def label(): Double
-  def features(): Vector
-  def toLabeledPoint() = LabeledPoint(label(), features())
-}
+import examples.common.LabeledPointConverter
 
 case class BikeBuyerModel(customerKey: Int, age: Int, bikeBuyer: Int, commuteDistance: String,
                           englishEducation: String, gender: String, houseOwnerFlag: Int,

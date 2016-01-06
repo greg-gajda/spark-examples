@@ -14,26 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples.classification
+package examples.common
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext
 
-object FilesLoader {
+object DataLoader {
   type LOAD = SparkContext => RDD[String]
 
-  def localFile: (SparkContext => RDD[String]) = sc => {
-    sc.textFile("data/bike-buyers.txt")
+  def localFile(file: String): LOAD = sc => {
+    sc.textFile("data/" + file)
   }
 
-  def hdfsFile: (SparkContext => RDD[String]) = sc => {
-    sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers.txt")
+  def hdfsFile(file: String): (SparkContext => RDD[String]) = sc => {
+    sc.textFile("hdfs://192.168.1.15:9000/spark/" + file)
   }
 
-  def cassandraFile: (SparkContext => RDD[String]) = sc => {
+  def cassandraFile: LOAD = sc => {
     import com.datastax.spark.connector._
     sc.cassandraTable("spark", "bike_buyers").map { row =>
       row.columnValues.mkString("\t")
     }
   }
+  
 }

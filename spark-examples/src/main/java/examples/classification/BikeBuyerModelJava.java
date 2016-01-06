@@ -23,6 +23,8 @@ import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
 
+import examples.common.LabeledPointConverter;
+
 public class BikeBuyerModelJava implements LabeledPointConverter {
 	
 	private final Integer customerKey;
