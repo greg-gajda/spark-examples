@@ -1,4 +1,4 @@
-# Example in Scala
+# Scala example of using Decision Tree algorithm
 
 In Spark program first thing is to create SparkConf object that contains information about application, which is required by SparkContext object as constructor parameter.
 
