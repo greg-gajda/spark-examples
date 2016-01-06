@@ -11,7 +11,7 @@ Application name is set to:
 ```scala
 val classificationApp = "Classification of customers by using Decision Tree"
 ```
-
+Spark's linear regression algoriths work with LabeledPoint
 
 
 Data is loaded following way:
