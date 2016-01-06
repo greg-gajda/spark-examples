@@ -15,7 +15,7 @@ Spark's linear regression like classification algorithms work with LabeledPoint 
 Using case class that reflects raw data can make conversion into LabeledPoints a bit easier:
 ```scala
 case class HouseModel(id: Long,
-                      date: String,
+                      date: java.sql.Date,
                       price: Float,
                       bedrooms: Int,
                       bathrooms: Float,
@@ -49,7 +49,7 @@ object HouseModel {
   def df = new java.text.SimpleDateFormat("yyyyMMdd'T'hhmmss")
 
   def apply(row: Array[String]) = new HouseModel(
-    row(0).toLong, row(1), 
+    row(0).toLong, new java.sql.Date(df.parse(row(1)).getTime),
     row(2).toInt, row(3).toInt,
     row(4).toFloat, row(5).toInt, row(6).toInt,
     row(7).toFloat, row(8).toInt, row(9).toInt,
