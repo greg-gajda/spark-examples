@@ -46,8 +46,8 @@ def localFile(fileName: String): (SparkContext => RDD[String]) = sc => {
 Using HDFS requires Hadoop being configured and available. The only difference in code is that instead of providing file path, HDFS URL is to be supplied. 192.168.1.15:9000 reflects my local network Hadoop Cluster configuration, so it ought to be replaced with some alternative.
 
 ```scala
-def hdfsFile: (SparkContext => RDD[String]) = sc => {
-    sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers")
+def hdfsFile(fileName: String): (SparkContext => RDD[String]) = sc => {
+    sc.textFile("hdfs://192.168.1.15:9000/spark/" + fileName)
 }
 ```
 CassandraRows are mapped into Strings, only to keep the same form, as after reading from text file. More reasonably solution could transform rows directly into something more useful.
