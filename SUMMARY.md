@@ -1,5 +1,7 @@
 # Table of content
 
+* [Classifying potential customers](notes/classification/dt-classification.md)
+
 * [Binary Classification using Decision Tree](notes/classification/dt-classification.md)
     * [Scala example](notes/classification/dt-scala.md)
     * [Sample calculations](notes/classification/dt-calculations.md)
