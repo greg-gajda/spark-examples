@@ -70,7 +70,7 @@ object LoadBikeBuyers {
     val keyspaceCql = Source.fromInputStream(getClass.getResourceAsStream("/create_spark_keyspace.cql")).mkString
     val tableCql = Source.fromInputStream(getClass.getResourceAsStream("/create_bike_buyers_table.cql")).mkString
 
-    val bbFile = Source.fromFile("data/bike-buyers", "utf8").getLines()
+    val bbFile = Source.fromFile("data/bike-buyers.txt", "utf8").getLines()
 
     cc.withSessionDo(s => {
       s.execute(keyspaceCql)
