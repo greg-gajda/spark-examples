@@ -12,4 +12,6 @@ Application name is set to:
 val classificationApp = "Classification of customers by using Decision Tree"
 ```
 
+
+
 Data is loaded following way:
