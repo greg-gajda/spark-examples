@@ -1,6 +1,7 @@
-# Predicting House prices by using different regression algorithms
+# Predicting House prices 
 
-Data set used in this example can be found in data folder on github (https://github.com/grzegorzgajda/spark-examples) in file house-data.csv.
+In this example different regression algorithms are used to predict house prices.
+Data set can be found in data folder on github (https://github.com/grzegorzgajda/spark-examples) in file house-data.csv.
 
 Evaluation regression algorithm, at least few things ought to be taken into account:
 * Regression model 
