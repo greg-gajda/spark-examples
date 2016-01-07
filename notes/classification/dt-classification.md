@@ -1,4 +1,4 @@
-# Classification of customers by using different algorithms
+# Create predictions that determine whether a customer will purchase a bicycle by using different classification algorithms
 
 Here are notes from examining some classification algorithms available in Spark’s MLLib with data excerpted from AdventureWorksDW2012 sample database. 
 
