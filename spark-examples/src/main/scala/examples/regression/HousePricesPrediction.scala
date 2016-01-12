@@ -15,6 +15,7 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.feature.StandardScaler
 import org.apache.spark.mllib.stat.Statistics
 import org.apache.spark.rdd.RDD
+import org.apache.spark.mllib.evaluation.RegressionMetrics
 
 object HousePricesPrediction {
 
@@ -22,7 +23,7 @@ object HousePricesPrediction {
     LinearRegressionWithSGD.train(rdd, numIterations, stepSize)
   }
 
-  def createDecisionTreeRegressionModel(rdd: RDD[LabeledPoint], maxDepth:Int = 10, maxBins:Int = 20) = {
+  def createDecisionTreeRegressionModel(rdd: RDD[LabeledPoint], maxDepth: Int = 10, maxBins: Int = 20) = {
     val impurity = "variance"
     DecisionTree.trainRegressor(rdd, Map[Int, Int](), impurity, maxDepth, maxBins)
   }
@@ -36,29 +37,35 @@ object HousePricesPrediction {
       filter { t => catching(classOf[NumberFormatException]).opt(t(0).toLong).isDefined }.
       map { HouseModel(_).toLabeledPoint() }
 
-    val Array(train, test) = houses.randomSplit(Array(.9, .1), 10204L)
+    val scaler = new StandardScaler(withMean = true, withStd = true).fit(houses.map(dp => dp.features))
 
-    val scaler = new StandardScaler(withMean = true, withStd = true).fit(train.map(dp => dp.features))
-    val scaledTrain = train.map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).cache()
-    val scaledTest = test.map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).cache()
+    val Array(train, test) = houses.
+      map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).
+      randomSplit(Array(.9, .1), 10204L)
 
-    val stats2 = Statistics.colStats(scaledTrain.map { x => x.features })
+    val stats2 = Statistics.colStats(train.map { x => x.features })
     println(s"Max : ${stats2.max}, Min : ${stats2.min}, and Mean : ${stats2.mean} and Variance : ${stats2.variance}")
 
-    val model = createDecisionTreeRegressionModel(scaledTrain)
+    val model = createDecisionTreeRegressionModel(train)
 
-    scaledTest.take(5).foreach {
+    test.take(5).foreach {
       x => println(s"Predicted: ${model.predict(x.features)}, Label: ${x.label}")
     }
 
-    val predictionsAndValues = scaledTest.map {
+    val predictionsAndValues = test.map {
       point => (model.predict(point.features), point.label)
     }
 
-    println("Mean house price: " + scaledTest.map { x => x.label }.mean())
+    println("Mean house price: " + test.map { x => x.label }.mean())
     println("Max prediction error: " + predictionsAndValues.map { case (p, v) => math.abs(v - p) }.max)
-    val rmse = math.sqrt(predictionsAndValues.map { case (p, v) => math.pow((v - p), 2) }.mean())
-    println("Root Mean Squared Error: " + rmse)
+
+    val metrics = new RegressionMetrics(predictionsAndValues)
+
+    println(s"Mean Squared Error: ${metrics.meanSquaredError}")
+    println(s"Root Mean Squared Error: ${metrics.rootMeanSquaredError}")
+    println(s"Coefficient of Determination R-squared: ${metrics.r2}")
+    println(s"Mean Absoloute Error: ${metrics.meanAbsoluteError}")
+    println(s"Explained variance: ${metrics.explainedVariance}")
 
     sc.stop
   }
