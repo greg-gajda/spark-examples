@@ -19,6 +19,14 @@ import org.apache.spark.mllib.evaluation.RegressionMetrics
 
 object HousePricesPrediction {
 
+  def printColumnsStats(rdd: RDD[LabeledPoint]) = {
+    val stats = Statistics.colStats(rdd.map { x => x.features })
+    println(s"Max : ${stats.max}")
+    println(s"Min : ${stats.min}")
+    println(s"Mean : ${stats.mean}")
+    println(s"Variance : ${stats.variance}")    
+  }
+  
   def createLinearRegressionModel(rdd: RDD[LabeledPoint], numIterations: Int = 100, stepSize: Double = 0.01) = {
     LinearRegressionWithSGD.train(rdd, numIterations, stepSize)
   }
@@ -42,9 +50,6 @@ object HousePricesPrediction {
     val Array(train, test) = houses.
       map(dp => new LabeledPoint(dp.label, scaler.transform(dp.features))).
       randomSplit(Array(.9, .1), 10204L)
-
-    val stats2 = Statistics.colStats(train.map { x => x.features })
-    println(s"Max : ${stats2.max}, Min : ${stats2.min}, and Mean : ${stats2.mean} and Variance : ${stats2.variance}")
 
     val model = createDecisionTreeRegressionModel(train)
 

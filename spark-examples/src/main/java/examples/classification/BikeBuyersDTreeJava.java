@@ -18,8 +18,8 @@ package examples.classification;
 
 import static examples.common.Application.configLocalMode;
 import static examples.common.Application.classificationApp;
+import static examples.common.FilesLoaderJava.localFile;
 import static examples.PrintUtils.printMetrics;
-import static examples.classification.FilesLoaderJava.localFile;
 import static examples.classification.Stats.confusionMatrix;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -37,7 +37,7 @@ public class BikeBuyersDTreeJava {
 	public static void main(String[] args) {
 		
 		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode(classificationApp()))) {
-			JavaRDD<String> bbFile = localFile(sc);
+			JavaRDD<String> bbFile = localFile("bike-buyers.txt", sc);
 
 			JavaRDD<LabeledPoint> data = bbFile.map(r -> new BikeBuyerModelJava(r.split("\\t")).toLabeledPoint());
 			JavaRDD<LabeledPoint>[] split = data.randomSplit(new double[] { .9, .1 });

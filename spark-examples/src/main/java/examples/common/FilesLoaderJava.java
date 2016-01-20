@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples.classification;
+package examples.common;
 
 import static com.datastax.spark.connector.japi.CassandraJavaUtil.javaFunctions;
 
@@ -25,12 +25,12 @@ import scala.Tuple2;
 
 public class FilesLoaderJava {
 
-	public static JavaRDD<String> localFile(JavaSparkContext sc) {
-		return sc.textFile("data/bike-buyers.txt");
+	public static JavaRDD<String> localFile(String fileName, JavaSparkContext sc) {
+		return sc.textFile("data/".concat(fileName));
 	}
 
-	public static JavaRDD<String> hdfsFile(JavaSparkContext sc) {
-		return sc.textFile("hdfs://192.168.1.15:9000/spark/bike-buyers.txt");
+	public static JavaRDD<String> hdfsFile(String fileName, JavaSparkContext sc) {
+		return sc.textFile("hdfs://192.168.1.15:9000/spark/".concat(fileName));
 	}
 
 	public static JavaRDD<String> cassandraFile(JavaSparkContext sc) {

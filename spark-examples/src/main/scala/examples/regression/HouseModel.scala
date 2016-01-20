@@ -44,7 +44,7 @@ case class HouseModel(id: Long,
                       sqft_lot15: Int)
     extends LabeledPointConverter {
 
-  def label() = price.toDouble
+  def label() = price
   def features() = HouseModel.convert(this)
 }
 
@@ -54,7 +54,7 @@ object HouseModel {
 
   def apply(row: Array[String]) = new HouseModel(
     row(0).toLong, new java.sql.Date(df.parse(row(1)).getTime),
-    row(2).toInt, row(3).toInt,
+    row(2).toDouble, row(3).toInt,
     row(4).toDouble, row(5).toInt, row(6).toInt,
     row(7).toDouble, row(8).toInt, row(9).toInt,
     row(10).toInt, row(11).toInt, row(12).toInt,

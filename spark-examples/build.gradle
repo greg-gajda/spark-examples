@@ -1,7 +1,7 @@
 apply plugin: 'scala'
 apply plugin: 'eclipse'
 apply plugin: 'application'
-mainClassName = 'examples.classification.BikeBuyersDTreeTuning'
+mainClassName = 'examples.regression.HousePricesPredictionJava'
 
 compileScala.options.encoding = 'UTF-8'
 
