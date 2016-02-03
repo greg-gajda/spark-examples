@@ -16,25 +16,30 @@
  */
 package examples.common
 
-import org.apache.spark.rdd.RDD
-import org.apache.spark.SparkContext
+import org.apache.spark.launcher.SparkLauncher
+import java.util.concurrent.Executors
 
-object DataLoader {
-  type LOAD = SparkContext => RDD[String]
-
-  def localFile(fileName: String): LOAD = sc => {
-    sc.textFile("data/" + fileName)
-  }
-
-  def hdfsFile(fileName: String): (SparkContext => RDD[String]) = sc => {
-    sc.textFile("hdfs://192.168.1.34:19000/spark/" + fileName)
-  }
-
-  def cassandraFile: LOAD = sc => {
-    import com.datastax.spark.connector._
-    sc.cassandraTable("spark", "bike_buyers").map { row =>
-      row.columnValues.mkString("\t")
-    }
-  }
+import collection.JavaConversions._
+object YarnLauncher {
   
+  val mode = "yarn-client"
+  val mainClass = "examples.regression.HousePricesPrediction"
+  
+  def main(args: Array[String]): Unit = {
+    val launcher = new SparkLauncher()
+      .setAppResource("build/libs/spark-examples-1.0.jar")
+      .setMainClass(mainClass)
+      .setMaster(mode)
+      .launch();
+    
+    
+    val tf = Executors.defaultThreadFactory()
+    tf.newThread(new RunnableInputStreamReader(launcher.getInputStream(), "input")).start()
+    tf.newThread(new RunnableInputStreamReader(launcher.getErrorStream(), "error")).start()
+    
+    println("Executing ...")
+    val exitCode = launcher.waitFor()
+    println(s"Finished, exit code: $exitCode")
+    
+  }
 }

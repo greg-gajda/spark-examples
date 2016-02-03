@@ -1,7 +1,7 @@
 apply plugin: 'scala'
 apply plugin: 'eclipse'
 apply plugin: 'application'
-mainClassName = 'examples.regression.HousePricesPredictionJava'
+mainClassName = 'examples.common.YarnLauncher'
 
 compileScala.options.encoding = 'UTF-8'
 
@@ -28,4 +28,5 @@ dependencies {
 	compile 'org.apache.spark:spark-core_2.11:1.5.1'
 	compile 'org.apache.spark:spark-sql_2.11:1.5.1'
 	compile 'org.apache.spark:spark-mllib_2.11:1.5.1'
+	compile 'org.apache.spark:spark-yarn_2.11:1.5.1'
 }

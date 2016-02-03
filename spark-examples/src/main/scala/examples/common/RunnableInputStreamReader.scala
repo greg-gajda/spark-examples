@@ -16,25 +16,21 @@
  */
 package examples.common
 
-import org.apache.spark.rdd.RDD
-import org.apache.spark.SparkContext
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.InputStream
 
-object DataLoader {
-  type LOAD = SparkContext => RDD[String]
+class RunnableInputStreamReader(is: InputStream, name: String) extends Runnable {
 
-  def localFile(fileName: String): LOAD = sc => {
-    sc.textFile("data/" + fileName)
-  }
+  val reader = new BufferedReader(new InputStreamReader(is))
 
-  def hdfsFile(fileName: String): (SparkContext => RDD[String]) = sc => {
-    sc.textFile("hdfs://192.168.1.34:19000/spark/" + fileName)
-  }
-
-  def cassandraFile: LOAD = sc => {
-    import com.datastax.spark.connector._
-    sc.cassandraTable("spark", "bike_buyers").map { row =>
-      row.columnValues.mkString("\t")
+  def run() = {
+    var line = reader.readLine();
+    while (line != null) {
+      System.out.println(line);
+      line = reader.readLine();
     }
+    reader.close();
   }
   
 }

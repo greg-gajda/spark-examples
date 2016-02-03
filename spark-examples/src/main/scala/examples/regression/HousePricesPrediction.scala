@@ -1,11 +1,27 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package examples.regression
 
 import scala.util.control.Exception.catching
 import org.apache.spark.SparkContext
 import org.apache.spark.mllib.regression.LinearRegressionWithSGD
 import examples.common.Application.regressionApp
-import examples.common.Application.configLocalMode
-import examples.common.DataLoader.localFile
+import examples.common.Application._
+import examples.common.DataLoader._
 import examples.PrintUtils.printMetrics
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import examples.classification.BikeBuyerModel
@@ -38,8 +54,8 @@ object HousePricesPrediction {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configLocalMode(regressionApp))
-    val hdFile = localFile("house-data.csv")(sc)
+    val sc = new SparkContext(configYarnClientMode(regressionApp))
+    val hdFile = hdfsFile("house-data.csv")(sc)
 
     val houses = hdFile.map(_.split(",")).
       filter { t => catching(classOf[NumberFormatException]).opt(t(0).toLong).isDefined }.

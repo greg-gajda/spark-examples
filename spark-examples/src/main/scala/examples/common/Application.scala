@@ -22,7 +22,6 @@ import org.apache.log4j.Level
 
 object Application {
   org.apache.log4j.BasicConfigurator.configure()
-  Logger.getLogger("org").setLevel(Level.OFF)
   Logger.getLogger("akka").setLevel(Level.OFF)
   
   def configLocalMode(appName: String): SparkConf = {
@@ -39,8 +38,24 @@ object Application {
     conf.set("spark.cassandra.connection.host", cassandraHost)
     conf
   }
+
+  def configYarnClientMode(appName: String): SparkConf = {
+    val conf = new SparkConf().setAppName(appName)
+    conf.setMaster("yarn-client")
+    conf.setJars(Array("build/libs/spark-examples-1.0.jar"))
+    conf.set("spark.cassandra.connection.host", cassandraHost)
+    conf
+  }
   
-  val cassandraHost = "127.0.0.1"
-  val classificationApp = "Classification of customers by using Decision Tree"
-  val regressionApp = "Decision Tree Algorithm as classifier of Bike Buyers"
+  def configYarnClusterMode(appName: String): SparkConf = {
+    val conf = new SparkConf().setAppName(appName)
+    conf.setMaster("yarn-cluster")
+    conf.setJars(Array("build/libs/spark-examples-1.0.jar"))
+    conf.set("spark.cassandra.connection.host", cassandraHost)
+    conf
+  }
+    
+  val cassandraHost = "192.168.1.34"
+  val classificationApp = "Classification of customers"
+  val regressionApp = "Regression for predictions"
 }
