@@ -21,12 +21,10 @@ sourceSets.test.java.srcDirs = []
 dependencies {	
 	compile 'com.datastax.spark:spark-cassandra-connector-java_2.11:1.5.0-M2'
 	compile 'com.datastax.spark:spark-cassandra-connector_2.11:1.5.0-M2'	
-	compile 'com.datastax.cassandra:cassandra-driver-core:2.1.9'
-	
-	compile 'org.scala-lang:scala-library:2.11.5'
+	compile 'com.datastax.cassandra:cassandra-driver-core:2.1.9'	
 
-	compile 'org.apache.spark:spark-core_2.11:1.5.1'
-	compile 'org.apache.spark:spark-sql_2.11:1.5.1'
-	compile 'org.apache.spark:spark-mllib_2.11:1.5.1'
-	compile 'org.apache.spark:spark-yarn_2.11:1.5.1'
+	compile 'org.apache.spark:spark-core_2.11:1.6.0'
+	compile 'org.apache.spark:spark-sql_2.11:1.6.0'
+	compile 'org.apache.spark:spark-mllib_2.11:1.6.0'
+	//compile 'org.apache.spark:spark-yarn_2.11:1.6.0'
 }

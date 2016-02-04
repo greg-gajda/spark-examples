@@ -19,7 +19,6 @@ package examples.common
 import org.apache.spark.launcher.SparkLauncher
 import java.util.concurrent.Executors
 
-import collection.JavaConversions._
 object YarnLauncher {
   
   val mode = "yarn-client"

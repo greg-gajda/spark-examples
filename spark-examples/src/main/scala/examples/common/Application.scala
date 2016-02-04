@@ -33,7 +33,7 @@ object Application {
 
   def configStandaloneClusterMode(appName: String): SparkConf = {
     val conf = new SparkConf().setAppName(appName)
-    conf.setMaster("spark://192.168.1.15:7077")
+    conf.setMaster(sparkMaster)
     conf.setJars(Array("build/libs/spark-examples-1.0.jar"))
     conf.set("spark.cassandra.connection.host", cassandraHost)
     conf
@@ -55,7 +55,6 @@ object Application {
     conf
   }
     
+  val sparkMaster = "spark://192.168.1.15:7077"
   val cassandraHost = "192.168.1.34"
-  val classificationApp = "Classification of customers"
-  val regressionApp = "Regression for predictions"
 }

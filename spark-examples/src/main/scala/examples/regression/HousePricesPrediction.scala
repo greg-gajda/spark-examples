@@ -19,7 +19,6 @@ package examples.regression
 import scala.util.control.Exception.catching
 import org.apache.spark.SparkContext
 import org.apache.spark.mllib.regression.LinearRegressionWithSGD
-import examples.common.Application.regressionApp
 import examples.common.Application._
 import examples.common.DataLoader._
 import examples.PrintUtils.printMetrics
@@ -54,7 +53,7 @@ object HousePricesPrediction {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configYarnClientMode(regressionApp))
+    val sc = new SparkContext(configYarnClientMode("Regression for House prices predictions"))
     val hdFile = hdfsFile("house-data.csv")(sc)
 
     val houses = hdFile.map(_.split(",")).

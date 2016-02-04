@@ -1,7 +1,6 @@
 package examples.regression;
 
 import static examples.common.Application.configLocalMode;
-import static examples.common.Application.regressionApp;
 import static examples.common.FilesLoaderJava.localFile;
 
 import java.util.Collections;
@@ -39,7 +38,7 @@ public class HousePricesPredictionJava {
 	}
 
 	public static void main(String[] args) {
-		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode(regressionApp()))) {
+		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode("Regression for House prices predictions in Java 8"))) {
 			JavaRDD<String> hdFile = localFile("house-data.csv", sc);
 
 			JavaRDD<LabeledPoint> houses = hdFile.map(s -> s.split(",")).

@@ -17,7 +17,6 @@
 package examples.classification;
 
 import static examples.common.Application.configLocalMode;
-import static examples.common.Application.classificationApp;
 import static examples.common.FilesLoaderJava.localFile;
 import static examples.PrintUtils.printMetrics;
 import static examples.classification.Stats.confusionMatrix;
@@ -36,7 +35,7 @@ public class BikeBuyersDTreeJava {
 
 	public static void main(String[] args) {
 		
-		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode(classificationApp()))) {
+		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode("Classification of Bike Buyers with DecisionTree in Java 8"))) {
 			JavaRDD<String> bbFile = localFile("bike-buyers.txt", sc);
 
 			JavaRDD<LabeledPoint> data = bbFile.map(r -> new BikeBuyerModelJava(r.split("\\t")).toLabeledPoint());
