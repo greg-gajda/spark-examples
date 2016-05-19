@@ -23,6 +23,10 @@ import org.apache.log4j.Level
 object Application {
   org.apache.log4j.BasicConfigurator.configure()
   Logger.getLogger("akka").setLevel(Level.OFF)
+  Logger.getLogger("org.apache.hadoop").setLevel(Level.ERROR)
+  Logger.getLogger("org.apache.spark").setLevel(Level.ERROR)
+  Logger.getLogger("org.spark-project").setLevel(Level.ERROR)
+  Logger.getLogger("io.netty").setLevel(Level.ERROR)
   
   def configLocalMode(appName: String): SparkConf = {
     val conf = new SparkConf().setAppName(appName)

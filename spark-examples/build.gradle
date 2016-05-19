@@ -26,5 +26,7 @@ dependencies {
 	compile 'org.apache.spark:spark-core_2.11:1.6.0'
 	compile 'org.apache.spark:spark-sql_2.11:1.6.0'
 	compile 'org.apache.spark:spark-mllib_2.11:1.6.0'
-	//compile 'org.apache.spark:spark-yarn_2.11:1.6.0'
+	compile 'org.apache.spark:spark-yarn_2.11:1.6.0'
+	
+	runtime 'org.apache.hadoop:hadoop-client:2.7.2'
 }
