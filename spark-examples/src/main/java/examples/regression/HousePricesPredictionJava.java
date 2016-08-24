@@ -21,15 +21,13 @@ import scala.Tuple2;
 
 public class HousePricesPredictionJava {
 
-	static LinearRegressionModel createLinearRegressionModel(JavaRDD<LabeledPoint> rdd, Integer numIterations,
-			Double stepSize) {
+	static LinearRegressionModel createLinearRegressionModel(JavaRDD<LabeledPoint> rdd, Integer numIterations, Double stepSize) {
 		return LinearRegressionWithSGD.train(rdd.rdd(),
 				numIterations == null ? 100 : numIterations,
 				stepSize == null ? 0.01 : stepSize);
 	}
 
-	static DecisionTreeModel createDecisionTreeRegressionModel(JavaRDD<LabeledPoint> rdd, Integer maxDepth,
-			Integer maxBins) {
+	static DecisionTreeModel createDecisionTreeRegressionModel(JavaRDD<LabeledPoint> rdd, Integer maxDepth, Integer maxBins) {
 		String impurity = "variance";
 		return DecisionTree.trainRegressor(rdd,
 				Collections.emptyMap(),
@@ -47,17 +45,14 @@ public class HousePricesPredictionJava {
 
 			StandardScalerModel scaler = new StandardScaler(true, true).fit(houses.map(dp -> dp.features()).rdd());
 
-			JavaRDD<LabeledPoint>[] split = houses.map(
-					dp -> new LabeledPoint(dp.label(), scaler.transform(dp.features())))
+			JavaRDD<LabeledPoint>[] split = houses.map(dp -> new LabeledPoint(dp.label(), scaler.transform(dp.features())))
 					.randomSplit(new double[] { .9, .1 }, 10204L);
 			JavaRDD<LabeledPoint> train = split[0].cache();
 			JavaRDD<LabeledPoint> test = split[1].cache();
 
 			DecisionTreeModel model = createDecisionTreeRegressionModel(train, null, null);
 
-			test.take(5)
-					.stream()
-					.forEach(
+			test.take(5).stream().forEach(
 							x -> System.out.println(String.format("Predicted: %.1f, Label: %.1f",
 									model.predict(x.features()), x.label()))
 					);
@@ -67,8 +62,7 @@ public class HousePricesPredictionJava {
 					);
 
 			System.out.println("Mean house price: " + test.mapToDouble(x -> x.label()).mean());
-			System.out.println("Max prediction error: "
-					+ predictionsAndValues.mapToDouble(
+			System.out.println("Max prediction error: "+ predictionsAndValues.mapToDouble(
 							t2 -> Math.abs(Double.class.cast(t2._2) - Double.class.cast(t2._1))).max());
 
 			RegressionMetrics metrics = new RegressionMetrics(predictionsAndValues.rdd());

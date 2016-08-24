@@ -1,0 +1,25 @@
+spark-worker-2:
+    image: spark-2
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    hostname: spark-worker-2
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_PUBLIC_DNS: localhost
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 2g
+      SPARK_WORKER_PORT: 8882
+      SPARK_WORKER_WEBUI_PORT: 8082
+    links:
+      - spark-master
+    expose:
+      - 7022
+      - 7023
+      - 7024
+      - 7025
+      - 7026
+      - 8882
+    ports:
+      - 8082:8082
+    volumes:
+      - ./conf/spark-worker-2:/conf
+      - ./data:/tmp/data
