@@ -1,7 +1,6 @@
 apply plugin: 'scala'
 apply plugin: 'eclipse'
-apply plugin: 'application'
-mainClassName = 'examples.common.YarnLauncher'
+
 
 compileScala.options.encoding = 'UTF-8'
 
@@ -19,14 +18,119 @@ sourceSets.test.scala.srcDir "src/test/java"
 sourceSets.test.java.srcDirs = []
 
 dependencies {	
-	compile 'com.datastax.spark:spark-cassandra-connector-java_2.11:1.5.0-M2'
-	compile 'com.datastax.spark:spark-cassandra-connector_2.11:1.5.0-M2'	
-	compile 'com.datastax.cassandra:cassandra-driver-core:2.1.9'	
+	compile 'com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-RC1'
+	compile 'com.datastax.spark:spark-cassandra-connector-java_2.11:1.6.0-M1'		
 
-	compile 'org.apache.spark:spark-core_2.11:1.6.0'
-	compile 'org.apache.spark:spark-sql_2.11:1.6.0'
-	compile 'org.apache.spark:spark-mllib_2.11:1.6.0'
-	compile 'org.apache.spark:spark-yarn_2.11:1.6.0'
+	compile 'org.apache.spark:spark-core_2.11:2.1.0'
+	compile 'org.apache.spark:spark-sql_2.11:2.1.0'
+	compile 'org.apache.spark:spark-mllib_2.11:2.1.0'
+	compile 'org.apache.spark:spark-yarn_2.11:2.1.0'
 	
 	runtime 'org.apache.hadoop:hadoop-client:2.7.2'
+}
+
+def jarLocation = projectDir.absolutePath + '/build/libs/spark-examples-1.0.jar'
+
+def deployMode = findProperty('deploy-mode') ?: 'client'
+def master = findProperty('master') ?: 'local[*]'
+def dataFolder = findProperty('data-folder') ?: 'file:///' + projectDir.absolutePath + '/data/'
+
+task submit_BikeBuyersDTree(type:Exec, dependsOn: ['build']) {
+	group = 'scala-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.BikeBuyersDTree", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_BikeBuyersDTreeTuning(type:Exec, dependsOn: ['build']) {
+	group = 'scala-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.BikeBuyersDTreeTuning", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_BikeBuyersRForest(type:Exec, dependsOn: ['build']) {
+	group = 'scala-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.BikeBuyersRForest", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_BikeBuyersRForestTuning(type:Exec, dependsOn: ['build']) {
+	group = 'scala-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.BikeBuyersRForestTuning", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_NaiveBayesTfIdfSpamClassifier(type:Exec, dependsOn: ['build']) {
+	group = 'scala-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.NaiveBayesTfIdfSpamClassifier", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_HousePricesPrediction(type:Exec, dependsOn: ['build']) {
+	group = 'scala-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.regression.HousePricesPrediction", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_BikeBuyersDTreeJava(type:Exec, dependsOn: ['build']) {
+	group = 'java-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.BikeBuyersDTreeJava", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_BikeBuyersRForestJava(type:Exec, dependsOn: ['build']) {
+	group = 'java-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.BikeBuyersRForestJava", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_NaiveBayesTfIdfSpamClassifierJava(type:Exec, dependsOn: ['build']) {
+	group = 'java-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.classification.NaiveBayesTfIdfSpamClassifierJava", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
+}
+
+task submit_HousePricesPredictionJava(type:Exec, dependsOn: ['build']) {
+	group = 'java-apps'  
+	
+	commandLine 'cmd', '/c', String.format("%s --class %s --deploy-mode %s --master %s %s %s", "%SPARK_HOME%bin/spark-submit", "examples.regression.HousePricesPredictionJava", deployMode, master, jarLocation, dataFolder)
+		
+	doFirst {
+		println commandLine
+	}
 }

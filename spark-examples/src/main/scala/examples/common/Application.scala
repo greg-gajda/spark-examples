@@ -20,6 +20,7 @@ import org.apache.spark.SparkConf
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
 
+@deprecated("this object is to be removed", "spark-examples")
 object Application {
   
   def configLocalMode(appName: String): SparkConf = {

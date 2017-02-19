@@ -16,8 +16,6 @@
  */
 package examples.classification;
 
-import static examples.common.Application.configLocalMode;
-import static examples.common.FilesLoaderJava.localFile;
 import static examples.PrintUtils.printMetrics;
 import static examples.classification.Stats.confusionMatrix;
 
@@ -36,7 +34,7 @@ import org.apache.spark.mllib.feature.IDF;
 import org.apache.spark.mllib.feature.IDFModel;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
-
+import org.apache.spark.sql.SparkSession;
 import scala.Tuple2;
 import scala.Tuple3;
 
@@ -59,9 +57,21 @@ public class NaiveBayesTfIdfSpamClassifierJava {
 	}
 	
 	public static void main(String [] args){
-		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode("NaiveBayes exploiting TFIDF for spam classification in Java 8"))) {
+		
+		org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"));
+		
+		SparkSession spark = SparkSession
+			.builder()
+			.master("local[*]")
+			.appName("NaiveBayes exploiting TFIDF for spam classification in Java 8")
+			.getOrCreate();
+		
+		try (JavaSparkContext sc = new JavaSparkContext(spark.sparkContext())) {
+
 			HashingTF hash = new HashingTF(100000);
-			JavaRDD<String> file = localFile("sms-labeled.txt", sc);			
+			
+			JavaRDD<String> file = sc.textFile(args.length == 0 ? "data/sms-labeled.txt" : args[0] + "sms-labeled.txt");
+						
 			JavaRDD<Tuple3<String, List<String>, Vector>> raw = file.distinct().map(
 				s -> s.split("\\t+")
 			).map(

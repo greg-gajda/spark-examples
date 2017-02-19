@@ -18,17 +18,18 @@ package examples.common
 
 import org.apache.spark.launcher.SparkLauncher
 import java.util.concurrent.Executors
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.InputStream
 
 object YarnLauncher {
-  
-  val mode = "yarn-client"
-  val mainClass = "examples.regression.HousePricesPrediction"
   
   def main(args: Array[String]): Unit = {
     val launcher = new SparkLauncher()
       .setAppResource("build/libs/spark-examples-1.0.jar")
-      .setMainClass(mainClass)
-      .setMaster(mode)
+      .setMainClass(args(0))
+      .setMaster(args(1))
+      .setDeployMode(args(2))
       .launch();
     
     
@@ -41,4 +42,19 @@ object YarnLauncher {
     println(s"Finished, exit code: $exitCode")
     
   }
+}
+
+class RunnableInputStreamReader(is: InputStream, name: String) extends Runnable {
+
+  val reader = new BufferedReader(new InputStreamReader(is))
+
+  def run() = {
+    var line = reader.readLine();
+    while (line != null) {
+      System.out.println(line);
+      line = reader.readLine();
+    }
+    reader.close();
+  }
+  
 }

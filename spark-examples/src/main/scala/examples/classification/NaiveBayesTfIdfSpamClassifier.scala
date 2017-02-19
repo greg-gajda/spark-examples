@@ -31,6 +31,7 @@ import examples.PrintUtils.printMetrics
 import examples.classification.Stats.confusionMatrix
 import examples.common.Application._
 import org.apache.spark.mllib.feature.IDF
+import org.apache.spark.sql.SparkSession
 
 object NaiveBayesTfIdfSpamClassifier {
 
@@ -74,11 +75,14 @@ object NaiveBayesTfIdfSpamClassifier {
   }
 
   def main(args: Array[String]): Unit = {
-
-    implicit val sc = new SparkContext(configLocalMode("NaiveBayes exploiting TFIDF for spam classification"))
+    
+    org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"))
+    
+    val spark = SparkSession.builder().appName("NaiveBayes exploiting TFIDF for spam classification").master("local[*]").getOrCreate()
+    implicit val sc = spark.sparkContext
 
     val hash = new HashingTF(numFeatures = 100000)
-    val raw = sc.textFile("data/sms-labeled.txt").distinct().map {
+    val raw = sc.textFile(args.headOption.getOrElse("data/") + "sms-labeled.txt").distinct().map {
       _.split("\\t+")
     }.map {
       a => (a(0), a(1).split("\\s+").map(_.toLowerCase()))
@@ -98,6 +102,6 @@ object NaiveBayesTfIdfSpamClassifier {
     val termsInSpamMsgs = tfidf(raw.filter(_._1 == "spam").map(t => (t._1, t._2))).sortBy(_._2.values, ascending = false)
     termsInSpamMsgs.take(10).foreach(println)
 
-    sc.stop()
+    spark.stop()
   }
 }

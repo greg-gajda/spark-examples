@@ -18,7 +18,9 @@ package examples.common
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext
+import org.slf4j.LoggerFactory
 
+@deprecated("this object is to be removed", "spark-examples")
 object DataLoader {
   type LOAD = SparkContext => RDD[String]
 
@@ -36,5 +38,5 @@ object DataLoader {
       row.columnValues.mkString("\t")
     }
   }
-  
+
 }

@@ -19,8 +19,6 @@ package examples.regression
 import scala.util.control.Exception.catching
 import org.apache.spark.SparkContext
 import org.apache.spark.mllib.regression.LinearRegressionWithSGD
-import examples.common.Application._
-import examples.common.DataLoader._
 import examples.PrintUtils.printMetrics
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import examples.classification.BikeBuyerModel
@@ -31,6 +29,7 @@ import org.apache.spark.mllib.feature.StandardScaler
 import org.apache.spark.mllib.stat.Statistics
 import org.apache.spark.rdd.RDD
 import org.apache.spark.mllib.evaluation.RegressionMetrics
+import org.apache.spark.sql.SparkSession
 
 object HousePricesPrediction {
 
@@ -53,8 +52,12 @@ object HousePricesPrediction {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configYarnClientMode("Regression for House prices predictions"))
-    val hdFile = hdfsFile("house-data.csv")(sc)
+    org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"))
+    
+    val spark = SparkSession.builder().appName("Regression for House prices predictions").master("local[*]").getOrCreate()
+    val sc = spark.sparkContext
+    
+    val hdFile = sc.textFile(args.headOption.getOrElse("data/") + "house-data.csv")    
 
     val houses = hdFile.map(_.split(",")).
       filter { t => catching(classOf[NumberFormatException]).opt(t(0).toLong).isDefined }.
@@ -87,6 +90,6 @@ object HousePricesPrediction {
     println(s"Mean Absoloute Error: ${metrics.meanAbsoluteError}")
     println(s"Explained variance: ${metrics.explainedVariance}")
 
-    sc.stop
+    spark.stop
   }
 }

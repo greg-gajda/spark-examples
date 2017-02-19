@@ -19,18 +19,22 @@ package examples.classification
 import org.apache.spark.SparkContext
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.DecisionTree
-
-import examples.common.Application.configLocalMode
 import examples.PrintUtils.printMetrics
-import examples.common.DataLoader.localFile
 import examples.classification.Stats.confusionMatrix
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+import scala.io.Source
 
 object BikeBuyersDTree {
 
   def main(args: Array[String]): Unit = {
+       
+    org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"))
+    
+    val spark = SparkSession.builder().appName("Classification of Bike Buyers with DecisionTree").master("local[*]").getOrCreate()
+    val sc = spark.sparkContext
 
-    val sc = new SparkContext(configLocalMode("Classification of Bike Buyers with DecisionTree"))
-    val bbFile = localFile("bike-buyers.txt")(sc)
+    val bbFile = sc.textFile(args.headOption.getOrElse("data/") + "bike-buyers.txt")    
 
     val data = bbFile.map { row =>
       BikeBuyerModel(row.split("\\t")).toLabeledPoint
@@ -61,7 +65,7 @@ object BikeBuyersDTree {
     val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
     printMetrics(metrics)
 
-    sc.stop()
+    spark.stop()
   }
 
 }

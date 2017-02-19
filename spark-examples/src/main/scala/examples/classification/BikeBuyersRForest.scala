@@ -20,19 +20,21 @@ import org.apache.spark.SparkContext
 import org.apache.spark.annotation.Since
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.RandomForest
-
-import examples.common.Application.configLocalMode
 import examples.PrintUtils.printMetrics
-import examples.common.DataLoader.localFile
 import examples.classification.Stats.confusionMatrix
+import org.apache.spark.sql.SparkSession
 
 object BikeBuyersRForest {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configLocalMode("Classification of Bike Buyers with RandomForest"))
-    val bbFile = localFile("bike-buyers.txt")(sc)
-
+    org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"))
+    
+    val spark = SparkSession.builder().appName("Classification of Bike Buyers with Random Forest").master("local[*]").getOrCreate()
+    val sc = spark.sparkContext
+    
+    val bbFile = sc.textFile(args.headOption.getOrElse("data/") + "bike-buyers.txt")
+    
     val data = bbFile.map { row =>
       BikeBuyerModel(row.split("\\t")).toLabeledPoint
     }
@@ -64,7 +66,7 @@ object BikeBuyersRForest {
     val metrics = new BinaryClassificationMetrics(predictionsAndLabels)
     printMetrics(metrics)
     
-    sc.stop()
+    spark.stop()
   }
 
 }

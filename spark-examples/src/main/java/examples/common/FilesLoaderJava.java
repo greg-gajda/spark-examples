@@ -23,6 +23,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import scala.Tuple2;
 
+@Deprecated
 public class FilesLoaderJava {
 
 	public static JavaRDD<String> localFile(String fileName, JavaSparkContext sc) {

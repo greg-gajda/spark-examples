@@ -42,7 +42,7 @@ object LoadBikeBuyers {
 
       bbFile.map { x => x.split("\\t") }.foreach(row => {
 
-        val insert = new QueryBuilder(s.getCluster).insertInto("spark", "bike_buyers")
+        val insert = QueryBuilder/*(s.getCluster)*/.insertInto("spark", "bike_buyers")
         row.zipWithIndex.foreach(vi => {
           val column = columns(vi._2)
           insert.value(column.getName,

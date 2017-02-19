@@ -16,8 +16,6 @@
  */
 package examples.classification;
 
-import static examples.common.Application.configLocalMode;
-import static examples.common.FilesLoaderJava.localFile;
 import static examples.PrintUtils.printMetrics;
 import static examples.classification.Stats.confusionMatrix;
 
@@ -28,6 +26,7 @@ import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.tree.DecisionTree;
 import org.apache.spark.mllib.tree.model.DecisionTreeModel;
+import org.apache.spark.sql.SparkSession;
 
 import scala.Tuple2;
 
@@ -35,8 +34,16 @@ public class BikeBuyersDTreeJava {
 
 	public static void main(String[] args) {
 		
-		try (JavaSparkContext sc = new JavaSparkContext(configLocalMode("Classification of Bike Buyers with DecisionTree in Java 8"))) {
-			JavaRDD<String> bbFile = localFile("bike-buyers.txt", sc);
+		org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"));
+		
+		SparkSession spark = SparkSession
+			.builder()
+			.master("local[*]")
+			.appName("Classification of Bike Buyers with DecisionTree in Java 8")
+			.getOrCreate();
+		
+		try (JavaSparkContext sc = new JavaSparkContext(spark.sparkContext())) {
+			JavaRDD<String> bbFile = sc.textFile(args.length == 0 ? "data/bike-buyers.txt" : args[0] + "bike-buyers.txt");
 
 			JavaRDD<LabeledPoint> data = bbFile.map(r -> new BikeBuyerModelJava(r.split("\\t")).toLabeledPoint());
 			JavaRDD<LabeledPoint>[] split = data.randomSplit(new double[] { .9, .1 });

@@ -20,19 +20,23 @@ import org.apache.spark.SparkContext
 import org.apache.spark.annotation.Since
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.tree.RandomForest
-
 import examples.common.Application.configLocalMode
 import examples.PrintUtils.printMetrics
 import examples.common.DataLoader.localFile
 import examples.classification.Stats.confusionMatrix
+import org.apache.spark.sql.SparkSession
 
 object BikeBuyersRForestTuning {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(configLocalMode("RandomForest tunning"))
-    val bbFile = localFile("bike-buyers.txt")(sc)
-
+    org.apache.log4j.PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.config"))
+    
+    val spark = SparkSession.builder().appName("Classification of Bike Buyers with Random Forest Tunning").master("local[*]").getOrCreate()
+    val sc = spark.sparkContext
+    
+    val bbFile = sc.textFile(args.headOption.getOrElse("data/") + "bike-buyers.txt")
+    
     val data = bbFile.map { row =>
       BikeBuyerModel(row.split("\\t")).toLabeledPoint
     }
@@ -57,9 +61,8 @@ object BikeBuyersRForestTuning {
       (numTrees, stats.MCC, stats.ACC, metrics.areaUnderPR, metrics.areaUnderROC)
     } 
     tuning.sortBy(_._2).reverse.foreach{
-      x => println(x._1 + " " + x._2 + " " + x._3+ " " + x._4+ " " + x._5)
+      x => println("Num trees: " + x._1 + ", Matthews correlation coefficient: " + x._2 + ", Accuracy: " + x._3+ ", Area under PR: " + x._4+ ", Area under ROC: " + x._5)
     }
-    
-    sc.stop()
+    spark.close()    
   }
 }
