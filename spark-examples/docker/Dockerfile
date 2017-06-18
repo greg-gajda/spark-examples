@@ -18,7 +18,8 @@ RUN curl -s $SPARK_ARCHIVE | tar -xz -C /usr/local/
 ENV SPARK_HOME /usr/local/spark-2.1.0-bin-hadoop2.7
 ENV PATH $PATH:$SPARK_HOME/bin
 
-COPY ha.conf $SPARK_HOME/conf
+# for High-availability like zoo-keeper's leader election
+# COPY ha.conf $SPARK_HOME/conf
 
 EXPOSE 4040 6066 7077 8080
 
